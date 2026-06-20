@@ -1,7 +1,9 @@
 'use client';
+
 import { useState } from 'react';
 import { useData } from '@/context/DataContext';
-import { Dumbbell, Search, Plus, Trash2, Check, X } from 'lucide-react';
+import { Dumbbell, Search, Plus, Check, X } from 'lucide-react';
+import styles from './AdminSeances.module.css'; // Liaison exclusive du CSS Module
 
 export default function AdminSeances() {
   const { seances, users, addSeance, updateSeance, cancelSeance } = useData();
@@ -48,41 +50,41 @@ export default function AdminSeances() {
   };
 
   return (
-    <div className="space-y-8 animate-fade-in-up">
+    <div className={styles.container}>
       {/* Header */}
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-        <div>
-          <h1 className="text-3xl font-extrabold text-white flex items-center gap-2">
+      <div className={styles.headerWrapper}>
+        <div className={styles.titleBlock}>
+          <h1 className={styles.pageTitle}>
             <Dumbbell className="text-cyan-400" /> Séances Coaching
           </h1>
-          <p className="text-sm text-white/50">Planifiez et suivez les cours individuels et bilans physiques.</p>
+          <p className={styles.pageSubtitle}>Planifiez et suivez les cours individuels et bilans physiques.</p>
         </div>
         <button
           onClick={() => setShowAddModal(true)}
-          className="btn-primary flex items-center gap-1.5 py-2.5 px-5 text-sm"
+          className={styles.btnPrimaryCustom}
         >
           <Plus size={16} /> Planifier une séance
         </button>
       </div>
 
       {/* Filters Bar */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <div className="relative">
+      <div className={styles.filtersGrid}>
+        <div className={styles.searchContainer}>
           <input
             type="text"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             placeholder="Rechercher un membre..."
-            className="form-input pl-10"
+            className={styles.formInputWithIcon}
           />
-          <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 text-white/30" size={16} />
+          <Search className={styles.searchIcon} size={16} />
         </div>
 
         <div>
           <select
             value={filterType}
             onChange={(e) => setFilterType(e.target.value)}
-            className="form-select"
+            className={styles.formSelect}
           >
             <option value="all">Tous les types de coaching</option>
             <option value="Préparation physique">Préparation physique</option>
@@ -93,9 +95,9 @@ export default function AdminSeances() {
       </div>
 
       {/* Seances Table */}
-      <div className="table-container">
-        <div className="overflow-x-auto">
-          <table>
+      <div className={styles.tableContainer}>
+        <div className={styles.responsiveWrapper}>
+          <table className={styles.customTable}>
             <thead>
               <tr>
                 <th>Membre</th>
@@ -103,7 +105,7 @@ export default function AdminSeances() {
                 <th>Date / Heure</th>
                 <th>Coach</th>
                 <th>Statut</th>
-                <th className="text-right">Actions</th>
+                <th className={styles.textRight}>Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -111,36 +113,35 @@ export default function AdminSeances() {
                 filteredSeances.map((s) => (
                   <tr key={s.id}>
                     <td>
-                      <div className="font-bold text-white">{s.clientName}</div>
+                      <div className={styles.memberName}>{s.clientName}</div>
                     </td>
                     <td>
-                      <span className="px-2.5 py-0.5 bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-xs font-semibold rounded-full uppercase tracking-wider">
+                      <span className={styles.sessionBadge}>
                         {s.type}
                       </span>
-                      {s.notes && <p className="text-[10px] text-white/40 italic mt-1">Note: {s.notes}</p>}
+                      {s.notes && <p className={styles.sessionNotes}>Note: {s.notes}</p>}
                     </td>
                     <td>
-                      <div className="text-white/80">{s.date}</div>
-                      <div className="text-xs text-white/40">{s.startTime} - {s.endTime}</div>
+                      <div className={styles.timeMain}>{s.date}</div>
+                      <div className={styles.timeSub}>{s.startTime} - {s.endTime}</div>
                     </td>
                     <td>
-                      <span className="text-white/70">{s.coach}</span>
+                      <span className={styles.coachName}>{s.coach}</span>
                     </td>
                     <td>
-                      <span className={`status-badge ${
-                        s.status === 'confirmed' ? 'status-confirmed' : (
-                          s.status === 'pending' ? 'status-pending' : 'status-cancelled'
+                      <span className={`${styles.statusBadge} ${s.status === 'confirmed' ? styles.statusConfirmed : (
+                          s.status === 'pending' ? styles.statusPending : styles.statusCancelled
                         )
-                      }`}>
+                        }`}>
                         {s.status === 'confirmed' ? 'Confirmé' : (s.status === 'pending' ? 'En attente' : 'Annulé')}
                       </span>
                     </td>
-                    <td className="text-right">
-                      <div className="flex gap-2 justify-end">
+                    <td className={styles.textRight}>
+                      <div className={styles.actionsFlex}>
                         {s.status === 'pending' && (
                           <button
                             onClick={() => updateSeance(s.id, { status: 'confirmed' })}
-                            className="p-1.5 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 hover:bg-emerald-500/20 rounded-md transition-all"
+                            className={styles.btnConfirm}
                             title="Confirmer la séance"
                           >
                             <Check size={14} />
@@ -149,7 +150,7 @@ export default function AdminSeances() {
                         {s.status !== 'cancelled' && (
                           <button
                             onClick={() => cancelSeance(s.id)}
-                            className="p-1.5 bg-red-500/10 border border-red-500/20 text-red-400 hover:bg-red-500/20 rounded-md transition-all"
+                            className={styles.btnCancel}
                             title="Annuler la séance"
                           >
                             <X size={14} />
@@ -161,7 +162,7 @@ export default function AdminSeances() {
                 ))
               ) : (
                 <tr>
-                  <td colSpan="6" className="text-center py-8 text-white/40">
+                  <td colSpan="6" className={`${styles.textRight} text-center py-8 text-white/40`} style={{ textAlign: 'center' }}>
                     Aucune séance trouvée.
                   </td>
                 </tr>
@@ -173,25 +174,25 @@ export default function AdminSeances() {
 
       {/* Add Modal */}
       {showAddModal && (
-        <div className="modal-overlay">
-          <div className="modal-content relative">
-            <button 
+        <div className={styles.modalOverlay}>
+          <div className={styles.modalContent}>
+            <button
               onClick={() => setShowAddModal(false)}
-              className="absolute right-4 top-4 p-1.5 bg-white/5 border border-white/10 rounded-full hover:bg-white/10 text-white/60"
+              className={styles.modalCloseBtn}
             >
               <X size={16} />
             </button>
 
-            <h3 className="text-xl font-bold text-white mb-6">Planifier une séance</h3>
-            
-            <form onSubmit={handleAddSubmit} className="space-y-4">
+            <h3 className={styles.modalTitle}>Planifier une séance</h3>
+
+            <form onSubmit={handleAddSubmit} className={styles.formFieldsSpacing}>
               <div>
-                <label className="form-label">Sélectionner le membre</label>
+                <label className={styles.formLabel}>Sélectionner le membre</label>
                 <select
                   required
                   value={newClientId}
                   onChange={(e) => setNewClientId(e.target.value)}
-                  className="form-select"
+                  className={styles.formSelect}
                 >
                   <option value="">-- Choisir un membre --</option>
                   {users.map(u => (
@@ -200,23 +201,23 @@ export default function AdminSeances() {
                 </select>
               </div>
 
-              <div className="grid grid-cols-2 gap-4">
+              <div className={styles.gridTwoCols}>
                 <div>
-                  <label className="form-label">Date</label>
+                  <label className={styles.formLabel}>Date</label>
                   <input
                     type="date"
                     required
                     value={newDate}
                     onChange={(e) => setNewDate(e.target.value)}
-                    className="form-input"
+                    className={styles.formInput}
                   />
                 </div>
                 <div>
-                  <label className="form-label">Type de coaching</label>
+                  <label className={styles.formLabel}>Type de coaching</label>
                   <select
                     value={newType}
                     onChange={(e) => setNewType(e.target.value)}
-                    className="form-select"
+                    className={styles.formSelect}
                   >
                     <option value="Préparation physique">Préparation physique</option>
                     <option value="Coaching personnalisé">Coaching personnalisé</option>
@@ -226,13 +227,13 @@ export default function AdminSeances() {
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-4">
+              <div className={styles.gridTwoCols}>
                 <div>
-                  <label className="form-label">Heure de début</label>
+                  <label className={styles.formLabel}>Heure de début</label>
                   <select
                     value={newStartTime}
                     onChange={(e) => setNewStartTime(e.target.value)}
-                    className="form-select"
+                    className={styles.formSelect}
                   >
                     <option value="08:00">08:00</option>
                     <option value="09:00">09:00</option>
@@ -244,11 +245,11 @@ export default function AdminSeances() {
                   </select>
                 </div>
                 <div>
-                  <label className="form-label">Heure de fin</label>
+                  <label className={styles.formLabel}>Heure de fin</label>
                   <select
                     value={newEndTime}
                     onChange={(e) => setNewEndTime(e.target.value)}
-                    className="form-select"
+                    className={styles.formSelect}
                   >
                     <option value="09:00">09:00</option>
                     <option value="10:00">10:00</option>
@@ -262,17 +263,17 @@ export default function AdminSeances() {
               </div>
 
               <div>
-                <label className="form-label">Notes de la séance</label>
+                <label className={styles.formLabel}>Notes de la séance</label>
                 <textarea
                   rows="3"
                   value={newNotes}
                   onChange={(e) => setNewNotes(e.target.value)}
                   placeholder="Objectif force, retour de blessure croisés, etc."
-                  className="form-input resize-none"
+                  className={styles.textareaFixed}
                 />
               </div>
 
-              <button type="submit" className="btn-primary w-full py-3">
+              <button type="submit" className={styles.btnFullWidth}>
                 Planifier la séance
               </button>
             </form>

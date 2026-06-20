@@ -1,10 +1,12 @@
 'use client';
+
 import { useEffect, useState } from 'react';
 import { useAuth } from '@/context/AuthContext';
 import { useData } from '@/context/DataContext';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { Calendar, Clock, Trophy, Dumbbell, AlertTriangle, ArrowLeft, XCircle } from 'lucide-react';
+import { Calendar, Clock, Trophy, Dumbbell, AlertTriangle, ArrowLeft, XCircle, Plus } from 'lucide-react';
+import styles from './ClientReservations.module.css'; // Importation du CSS Module
 
 export default function ClientReservations() {
   const { user, loading } = useAuth();
@@ -20,7 +22,7 @@ export default function ClientReservations() {
 
   if (loading || !user) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="min-h-screen bg-neutral-950 flex items-center justify-center">
         <div className="w-12 h-12 border-4 border-cyan-500 border-t-transparent rounded-full animate-spin" />
       </div>
     );
@@ -32,79 +34,109 @@ export default function ClientReservations() {
   const getStatusBadge = (status) => {
     switch (status) {
       case 'confirmed':
-        return <span className="status-badge status-confirmed">Confirmé</span>;
+        return (
+          <span className={`${styles.statusBadge} ${styles.statusConfirmed}`}>
+            <span className={styles.pulseDot} />
+            Confirmé
+          </span>
+        );
       case 'pending':
-        return <span className="status-badge status-pending">En attente</span>;
+        return (
+          <span className={`${styles.statusBadge} ${styles.statusPending}`}>
+            <span className={styles.staticDot} />
+            En attente
+          </span>
+        );
       case 'cancelled':
-        return <span className="status-badge status-cancelled">Annulé</span>;
+        return (
+          <span className={`${styles.statusBadge} ${styles.statusCancelled}`}>
+            Annulé
+          </span>
+        );
       default:
         return null;
     }
   };
 
   return (
-    <div className="min-h-screen py-12 px-6">
-      <div className="container mx-auto max-w-5xl space-y-8 animate-fade-in-up">
-        
-        {/* Navigation back */}
-        <div className="flex justify-between items-center">
-          <Link href="/client/dashboard" className="text-white/60 hover:text-cyan-400 flex items-center gap-1.5 text-sm transition-colors">
-            <ArrowLeft size={16} /> Retour au tableau de bord
+    <div className={styles.pageContainer}>
+      {/* Background Decorative Glow */}
+      <div className={styles.glow} />
+
+      <div className={styles.mainWrapper}>
+
+        {/* Top Navigation Row */}
+        <div className={styles.topNavigation}>
+          <Link href="/client/dashboard" className={styles.backLink}>
+            <ArrowLeft size={16} className={styles.backIcon} />
+            Retour au tableau de bord
           </Link>
-          <Link href="/reserver" className="btn-primary py-2 px-4 text-xs">
+          <Link href="/reserver" className={styles.newReservationButton}>
+            <Plus size={16} strokeWidth={2.5} />
             Nouvelle réservation
           </Link>
         </div>
 
-        {/* Header */}
-        <div className="space-y-2">
-          <h1 className="text-3xl font-extrabold text-white">Mes Réservations</h1>
-          <p className="text-sm text-white/50">Gérez l'ensemble de vos créneaux réservés.</p>
+        {/* Header Block */}
+        <div className={styles.headerBlock}>
+          <h1 className={styles.pageTitle}>Mes Réservations</h1>
+          <p className={styles.pageSubtitle}>
+            Suivez, planifiez et gérez l'ensemble de vos activités au centre.
+          </p>
         </div>
 
-        {/* Tabs switcher */}
-        <div className="flex border-b border-white/10 gap-6">
+        {/* Custom Modern Tabs */}
+        <div className={styles.tabsContainer}>
           <button
             onClick={() => setActiveTab('padel')}
-            className={`pb-3 text-sm font-semibold relative transition-all ${
-              activeTab === 'padel' ? 'text-cyan-400 border-b-2 border-cyan-500' : 'text-white/50 hover:text-white'
-            }`}
+            className={`${styles.tabButton} ${activeTab === 'padel' ? styles.tabActive : styles.tabInactive}`}
           >
-            Padel ({clientReservations.length})
+            <Trophy size={16} />
+            Padel
+            <span className={`${styles.counterBadge} ${activeTab === 'padel' ? styles.badgeActive : styles.badgeInactive}`}>
+              {clientReservations.length}
+            </span>
           </button>
+
           <button
             onClick={() => setActiveTab('coaching')}
-            className={`pb-3 text-sm font-semibold relative transition-all ${
-              activeTab === 'coaching' ? 'text-cyan-400 border-b-2 border-cyan-500' : 'text-white/50 hover:text-white'
-            }`}
+            className={`${styles.tabButton} ${activeTab === 'coaching' ? styles.tabActive : styles.tabInactive}`}
           >
-            Coaching ({clientSeances.length})
+            <Dumbbell size={16} />
+            Coaching
+            <span className={`${styles.counterBadge} ${activeTab === 'coaching' ? styles.badgeActive : styles.badgeInactive}`}>
+              {clientSeances.length}
+            </span>
           </button>
         </div>
 
-        {/* Content lists */}
-        <div className="space-y-4">
+        {/* Dynamic Lists Content Area */}
+        <div className={styles.listContainer}>
           {activeTab === 'padel' ? (
             clientReservations.length > 0 ? (
-              <div className="grid grid-cols-1 gap-4">
+              <div className={styles.grid}>
                 {clientReservations.map((res) => (
-                  <div key={res.id} className="glass-card p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border border-white/5">
-                    <div className="flex gap-4 items-center">
-                      <div className="w-10 h-10 rounded-lg bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-cyan-400 shrink-0">
-                        <Trophy size={20} />
+                  <div key={res.id} className={styles.activityCard}>
+                    <div className={styles.leftInfoSection}>
+                      <div className={styles.iconWrapper}>
+                        <Trophy size={22} />
                       </div>
-                      <div className="space-y-1">
-                        <div className="font-bold text-white text-lg">{res.court}</div>
-                        <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs text-white/50">
-                          <span className="flex items-center gap-1"><Calendar size={12} /> {res.date}</span>
-                          <span className="flex items-center gap-1"><Clock size={12} /> {res.startTime} - {res.endTime}</span>
-                          <span>• {res.players} joueurs</span>
+                      <div className={styles.detailsWrapper}>
+                        <h3 className={styles.activityTitle}>{res.court}</h3>
+                        <div className={styles.metadataRow}>
+                          <span className={styles.metaItem}><Calendar size={14} className={styles.metaIcon} /> {res.date}</span>
+                          <span className={styles.metaSeparator} />
+                          <span className={styles.metaItem}><Clock size={14} className={styles.metaIcon} /> {res.startTime} - {res.endTime}</span>
+                          <span className={styles.metaSeparator} />
+                          <span className={styles.playersBadge}>{res.players} joueurs</span>
                         </div>
-                        {res.notes && <p className="text-xs text-white/40 italic">Note: {res.notes}</p>}
+                        {res.notes && (
+                          <p className={styles.noteText}>Note : {res.notes}</p>
+                        )}
                       </div>
                     </div>
 
-                    <div className="flex items-center gap-4 w-full sm:w-auto justify-between sm:justify-end">
+                    <div className={styles.rightActionsSection}>
                       {getStatusBadge(res.status)}
                       {res.status !== 'cancelled' && (
                         <button
@@ -113,7 +145,7 @@ export default function ClientReservations() {
                               cancelReservation(res.id);
                             }
                           }}
-                          className="text-red-400 hover:text-red-300 p-2 hover:bg-red-500/10 rounded-full transition-all"
+                          className={styles.cancelButton}
                           title="Annuler le créneau"
                         >
                           <XCircle size={20} />
@@ -124,31 +156,36 @@ export default function ClientReservations() {
                 ))}
               </div>
             ) : (
-              <div className="text-center py-12 text-white/40 text-sm">
+              <div className={styles.emptyState}>
+                <Trophy size={32} className={styles.emptyIcon} />
                 Aucune réservation de padel enregistrée.
               </div>
             )
           ) : (
             clientSeances.length > 0 ? (
-              <div className="grid grid-cols-1 gap-4">
+              <div className={styles.grid}>
                 {clientSeances.map((seance) => (
-                  <div key={seance.id} className="glass-card p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border border-white/5">
-                    <div className="flex gap-4 items-center">
-                      <div className="w-10 h-10 rounded-lg bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-cyan-400 shrink-0">
-                        <Dumbbell size={20} />
+                  <div key={seance.id} className={styles.activityCard}>
+                    <div className={styles.leftInfoSection}>
+                      <div className={styles.iconWrapper}>
+                        <Dumbbell size={22} />
                       </div>
-                      <div className="space-y-1">
-                        <div className="font-bold text-white text-lg">{seance.type}</div>
-                        <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs text-white/50">
-                          <span className="flex items-center gap-1"><Calendar size={12} /> {seance.date}</span>
-                          <span className="flex items-center gap-1"><Clock size={12} /> {seance.startTime} - {seance.endTime}</span>
-                          <span>• Coach : {seance.coach}</span>
+                      <div className={styles.detailsWrapper}>
+                        <h3 className={styles.activityTitle}>{seance.type}</h3>
+                        <div className={styles.metadataRow}>
+                          <span className={styles.metaItem}><Calendar size={14} className={styles.metaIcon} /> {seance.date}</span>
+                          <span className={styles.metaSeparator} />
+                          <span className={styles.metaItem}><Clock size={14} className={styles.metaIcon} /> {seance.startTime} - {seance.endTime}</span>
+                          <span className={styles.metaSeparator} />
+                          <span className={styles.coachBadge}>Coach : {seance.coach}</span>
                         </div>
-                        {seance.notes && <p className="text-xs text-white/40 italic">Note: {seance.notes}</p>}
+                        {seance.notes && (
+                          <p className={styles.noteText}>Note : {seance.notes}</p>
+                        )}
                       </div>
                     </div>
 
-                    <div className="flex items-center gap-4 w-full sm:w-auto justify-between sm:justify-end">
+                    <div className={styles.rightActionsSection}>
                       {getStatusBadge(seance.status)}
                       {seance.status !== 'cancelled' && (
                         <button
@@ -157,7 +194,7 @@ export default function ClientReservations() {
                               cancelSeance(seance.id);
                             }
                           }}
-                          className="text-red-400 hover:text-red-300 p-2 hover:bg-red-500/10 rounded-full transition-all"
+                          className={styles.cancelButton}
                           title="Annuler la séance"
                         >
                           <XCircle size={20} />
@@ -168,19 +205,23 @@ export default function ClientReservations() {
                 ))}
               </div>
             ) : (
-              <div className="text-center py-12 text-white/40 text-sm">
+              <div className={styles.emptyState}>
+                <Dumbbell size={32} className={styles.emptyIcon} />
                 Aucune séance de coaching enregistrée.
               </div>
             )
           )}
         </div>
 
-        {/* Cancellation warning callout */}
-        <div className="p-4 rounded-xl border border-white/5 bg-white/2 flex items-center gap-3">
-          <AlertTriangle size={20} className="text-yellow-500 shrink-0" />
-          <p className="text-xs text-white/50 leading-relaxed">
-            Rappel : Conformément à nos conditions générales de vente, toute réservation de padel ou séance de coaching doit être annulée au minimum 24h à l'avance pour être recréditée.
-          </p>
+        {/* Cancellation Warning Callout Box */}
+        <div className={styles.warningCallout}>
+          <AlertTriangle size={20} className={styles.warningIcon} />
+          <div className={styles.warningContent}>
+            <h5 className={styles.warningTitle}>Politique d'annulation</h5>
+            <p className={styles.warningText}>
+              Conformément à nos conditions générales de vente, toute réservation de padel ou séance de coaching doit être annulée au minimum <strong className={styles.warningHighlight}>24 heures à l'avance</strong> pour être recréditée sur votre compte.
+            </p>
+          </div>
         </div>
 
       </div>

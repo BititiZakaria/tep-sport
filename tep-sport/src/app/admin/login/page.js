@@ -1,9 +1,11 @@
 'use client';
+
 import { useState } from 'react';
 import { useAuth } from '@/context/AuthContext';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { Shield, Key, Mail, AlertCircle } from 'lucide-react';
+import styles from './AdminLogin.module.css'; // Importation du CSS Module
 
 export default function AdminLogin() {
   const { loginAdmin, user } = useAuth();
@@ -33,55 +35,60 @@ export default function AdminLogin() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center py-12 px-6">
-      <div className="max-w-md w-full space-y-8 glass-card p-8 sm:p-10 relative overflow-hidden">
-        {/* Glow */}
-        <div className="absolute top-0 right-0 w-32 h-32 bg-blue-600/10 rounded-full blur-2xl" />
+    <div className={styles.pageContainer}>
+      <div className={styles.card}>
+        {/* Glow effect */}
+        <div className={styles.glow} />
 
-        <div className="text-center space-y-2">
-          <Shield className="text-cyan-400 mx-auto" size={32} />
-          <h2 className="text-3xl font-black text-white">Administration</h2>
-          <p className="text-sm text-white/50">
+        {/* Header Branding */}
+        <div className={styles.header}>
+          <Shield className={styles.icon} size={32} />
+          <h2 className={styles.title}>Administration</h2>
+          <p className={styles.subtitle}>
             Portail de gestion TEP Sport
           </p>
         </div>
 
+        {/* Alert Error Box */}
         {error && (
-          <div className="p-4 bg-red-500/10 border border-red-500/20 text-red-400 text-sm rounded-lg flex items-center gap-2 animate-fade-in-up">
+          <div className={styles.errorAlert}>
             <AlertCircle size={16} />
             <span>{error}</span>
           </div>
         )}
 
-        <form onSubmit={handleSubmit} className="space-y-6">
-          <div className="space-y-4">
-            <div>
-              <label className="form-label">Email administrateur</label>
-              <div className="relative">
+        {/* Login Form */}
+        <form onSubmit={handleSubmit} className={styles.form}>
+          <div className={styles.fieldsWrapper}>
+            {/* Email Field */}
+            <div className={styles.fieldGroup}>
+              <label className={styles.label}>Email administrateur</label>
+              <div className={styles.inputContainer}>
                 <input
                   type="email"
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="admin@tep-sport.com"
-                  className="form-input pl-10"
+                  className={styles.input}
                 />
-                <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 text-white/30" size={16} />
+                <Mail className={styles.inputIcon} size={16} />
               </div>
             </div>
 
-            <div>
-              <label className="form-label">Mot de passe</label>
-              <div className="relative">
+            {/* Password Field */}
+            <div className={styles.fieldGroup}>
+              <label className={styles.label}>Mot de passe</label>
+              <div className={styles.inputContainer}>
                 <input
                   type="password"
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="••••••••"
-                  className="form-input pl-10"
+                  className={styles.input}
                 />
-                <Key className="absolute left-3.5 top-1/2 -translate-y-1/2 text-white/30" size={16} />
+                <Key className={styles.inputIcon} size={16} />
               </div>
             </div>
           </div>
@@ -89,22 +96,23 @@ export default function AdminLogin() {
           <button
             type="submit"
             disabled={loading}
-            className="btn-primary w-full py-3 flex items-center justify-center gap-2 bg-gradient-to-r from-blue-600 to-cyan-500 border-none"
+            className={styles.submitButton}
           >
             Se connecter
           </button>
         </form>
 
-        <div className="pt-4 border-t border-white/5 space-y-3 text-center text-xs">
-          <div className="p-3 bg-white/5 rounded-lg text-left text-white/60 space-y-1 leading-relaxed">
-            <p className="font-bold text-white/80">Identifiants Administrateur :</p>
-            <p>• Email : <code className="text-cyan-400 bg-black/40 px-1 py-0.5 rounded">admin@tep-sport.com</code></p>
-            <p>• Mot de passe : <code className="text-cyan-400 bg-black/40 px-1 py-0.5 rounded">admin123</code></p>
+        {/* Helper Footer Area */}
+        <div className={styles.footer}>
+          <div className={styles.credentialsBox}>
+            <p className={styles.credentialsTitle}>Identifiants Administrateur :</p>
+            <p>• Email : <code className={styles.codeBadge}>admin@tep-sport.com</code></p>
+            <p>• Mot de passe : <code className={styles.codeBadge}>admin123</code></p>
           </div>
 
-          <p className="text-white/40">
+          <p className={styles.redirectText}>
             Retourner à l'espace membre client ?{' '}
-            <Link href="/client/login" className="text-cyan-400 hover:underline">
+            <Link href="/client/login" className={styles.link}>
               Se connecter ici
             </Link>
           </p>

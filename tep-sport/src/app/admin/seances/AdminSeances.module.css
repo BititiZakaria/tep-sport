@@ -1,0 +1,364 @@
+/* AdminSeances.module.css */
+.container {
+    composes: space-y-8 from global;
+    animation: fadeInUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Header & Top Layout */
+.headerWrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+@media (min-width: 640px) {
+    .headerWrapper {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+}
+
+.titleBlock {
+    composes: space-y-1 from global;
+}
+
+.pageTitle {
+    font-size: 30px;
+    font-weight: 800;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0;
+}
+
+.pageSubtitle {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.5);
+    margin: 0;
+}
+
+/* Bar de filtres */
+.filtersGrid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+}
+
+@media (min-width: 640px) {
+    .filtersGrid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+.searchContainer {
+    position: relative;
+}
+
+.searchIcon {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: rgba(255, 255, 255, 0.3);
+    pointer-events: none;
+}
+
+/* Éléments de formulaires intégrés */
+.formInput,
+.formSelect {
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 10px;
+    padding: 10px 14px;
+    color: #ffffff;
+    font-size: 14px;
+    transition: all 0.2s ease;
+    outline: none;
+}
+
+.formInput:focus,
+.formSelect:focus {
+    border-color: rgba(6, 182, 212, 0.4);
+    background-color: rgba(255, 255, 255, 0.05);
+    box-shadow: 0 0 0 2px rgba(6, 182, 212, 0.15);
+}
+
+.formInputWithIcon {
+    composes: formInput;
+    padding-left: 40px;
+}
+
+.formLabel {
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.6);
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.025em;
+}
+
+/* Gestion du Tableau */
+.tableContainer {
+    background-color: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 16px;
+    overflow: hidden;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+}
+
+.responsiveWrapper {
+    overflow-x: auto;
+    width: 100%;
+}
+
+.customTable {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    font-size: 14px;
+}
+
+.customTable th {
+    background-color: rgba(255, 255, 255, 0.02);
+    padding: 16px;
+    font-size: 12px;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.4);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.customTable td {
+    padding: 16px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+    vertical-align: middle;
+}
+
+.customTable tr:last-child td {
+    border-bottom: none;
+}
+
+/* Détails internes des lignes */
+.memberName {
+    font-weight: 700;
+    color: #ffffff;
+}
+
+.sessionBadge {
+    display: inline-block;
+    padding: 2px 10px;
+    background-color: rgba(6, 182, 212, 0.1);
+    border: 1px solid rgba(6, 182, 212, 0.2);
+    color: #22d3ee;
+    font-size: 11px;
+    font-weight: 600;
+    border-radius: 9999px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.sessionNotes {
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.4);
+    font-style: italic;
+    margin-top: 4px;
+}
+
+.timeMain {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.timeSub {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.4);
+}
+
+.coachName {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.textRight {
+    text-align: right;
+}
+
+/* Boutons d'actions */
+.actionsFlex {
+    display: flex;
+    gap: 8px;
+    justify-content: flex-end;
+}
+
+.actionBtn {
+    padding: 6px;
+    border-radius: 6px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+.btnConfirm {
+    composes: actionBtn;
+    background-color: rgba(16, 185, 129, 0.1);
+    border: 1px solid rgba(16, 185, 129, 0.2);
+    color: #34d399;
+}
+
+.btnConfirm:hover {
+    background-color: rgba(16, 185, 129, 0.2);
+}
+
+.btnCancel {
+    composes: actionBtn;
+    background-color: rgba(239, 68, 68, 0.1);
+    border: 1px solid rgba(239, 68, 68, 0.2);
+    color: #f87171;
+}
+
+.btnCancel:hover {
+    background-color: rgba(239, 68, 68, 0.2);
+}
+
+/* Status Badges */
+.statusBadge {
+    font-size: 11px;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 9999px;
+    display: inline-block;
+}
+
+.statusConfirmed {
+    background-color: rgba(16, 185, 129, 0.1);
+    color: #34d399;
+    border: 1px solid rgba(16, 185, 129, 0.2);
+}
+
+.statusPending {
+    background-color: rgba(245, 158, 11, 0.1);
+    color: #fbbf24;
+    border: 1px solid rgba(245, 158, 11, 0.2);
+}
+
+.statusCancelled {
+    background-color: rgba(255, 255, 255, 0.05);
+    color: rgba(255, 255, 255, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Modales (Overlay & Structure) */
+.modalOverlay {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    z-index: 50;
+}
+
+.modalContent {
+    position: relative;
+    background-color: #121214;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 20px;
+    width: 100%;
+    max-width: 32rem;
+    /* max-w-lg */
+    padding: 24px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+}
+
+.modalCloseBtn {
+    position: absolute;
+    right: 16px;
+    top: 16px;
+    padding: 6px;
+    background-color: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 9999px;
+    color: rgba(255, 255, 255, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.modalCloseBtn:hover {
+    background-color: rgba(255, 255, 255, 0.08);
+    color: #ffffff;
+}
+
+.modalTitle {
+    font-size: 20px;
+    font-weight: 700;
+    color: #ffffff;
+    margin-top: 0;
+    margin-bottom: 24px;
+}
+
+/* Grilles internes et utilitaires */
+.gridTwoCols {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+}
+
+.formFieldsSpacing {
+    composes: space-y-4 from global;
+}
+
+.textareaFixed {
+    composes: formInput;
+    resize: none;
+}
+
+/* Boutons standardisateurs */
+.btnPrimaryCustom {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    background-color: #06b6d4;
+    color: #0a0a0a;
+    font-weight: 600;
+    padding: 10px 20px;
+    border-radius: 10px;
+    font-size: 14px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btnPrimaryCustom:hover {
+    background-color: #22d3ee;
+}
+
+.btnFullWidth {
+    composes: btnPrimaryCustom;
+    width: 100%;
+    padding-top: 12px;
+    padding-bottom: 12px;
+}

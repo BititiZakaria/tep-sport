@@ -1,7 +1,9 @@
 'use client';
+
 import { useState } from 'react';
 import { useData } from '@/context/DataContext';
-import { Calendar, Trophy, Trash2, Check, X, Search, Plus } from 'lucide-react';
+import { Calendar, Trophy, Check, X, Search, Plus } from 'lucide-react';
+import styles from './AdminReservations.module.css'; // Liaison du style local
 
 export default function AdminReservations() {
   const { reservations, users, addReservation, updateReservation, cancelReservation } = useData();
@@ -51,14 +53,14 @@ export default function AdminReservations() {
   };
 
   return (
-    <div className="space-y-8 animate-fade-in-up">
+    <div className={styles.container}>
       {/* Header */}
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+      <div className={styles.headerSection}>
         <div>
-          <h1 className="text-3xl font-extrabold text-white flex items-center gap-2">
+          <h1 className={styles.title}>
             <Trophy className="text-cyan-400" /> Réservations Padel
           </h1>
-          <p className="text-sm text-white/50">Gérez le planning et le statut des locations de terrains.</p>
+          <p className={styles.subtitle}>Gérez le planning et le statut des locations de terrains.</p>
         </div>
         <button
           onClick={() => setShowAddModal(true)}
@@ -69,8 +71,8 @@ export default function AdminReservations() {
       </div>
 
       {/* Filters bar */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <div className="relative">
+      <div className={styles.filtersBar}>
+        <div className={styles.searchWrapper}>
           <input
             type="text"
             value={searchTerm}
@@ -78,7 +80,7 @@ export default function AdminReservations() {
             placeholder="Rechercher un membre..."
             className="form-input pl-10"
           />
-          <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 text-white/30" size={16} />
+          <Search className={styles.searchIcon} size={16} />
         </div>
 
         <div>
@@ -96,9 +98,9 @@ export default function AdminReservations() {
       </div>
 
       {/* Reservations Table */}
-      <div className="table-container">
-        <div className="overflow-x-auto">
-          <table>
+      <div className={styles.tableWrapper}>
+        <div className={styles.scrollable}>
+          <table className={styles.table}>
             <thead>
               <tr>
                 <th>Membre</th>
@@ -106,7 +108,7 @@ export default function AdminReservations() {
                 <th>Terrain</th>
                 <th>Joueurs</th>
                 <th>Statut</th>
-                <th className="text-right">Actions</th>
+                <th className={styles.textRight}>Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -114,33 +116,32 @@ export default function AdminReservations() {
                 filteredReservations.map((res) => (
                   <tr key={res.id}>
                     <td>
-                      <div className="font-bold text-white">{res.userName}</div>
+                      <div className={styles.memberName}>{res.userName}</div>
                     </td>
                     <td>
-                      <div className="text-white/80">{res.date}</div>
-                      <div className="text-xs text-white/40">{res.startTime} - {res.endTime}</div>
+                      <div className={styles.dateTimeText}>{res.date}</div>
+                      <div className={styles.timeSubtext}>{res.startTime} - {res.endTime}</div>
                     </td>
                     <td>
-                      <span className="text-white/70">{res.court}</span>
+                      <span className={styles.textMuted}>{res.court}</span>
                     </td>
                     <td>
-                      <span className="text-white/70">{res.players} joueurs</span>
+                      <span className={styles.textMuted}>{res.players} joueurs</span>
                     </td>
                     <td>
-                      <span className={`status-badge ${
-                        res.status === 'confirmed' ? 'status-confirmed' : (
+                      <span className={`status-badge ${res.status === 'confirmed' ? 'status-confirmed' : (
                           res.status === 'pending' ? 'status-pending' : 'status-cancelled'
                         )
-                      }`}>
+                        }`}>
                         {res.status === 'confirmed' ? 'Confirmé' : (res.status === 'pending' ? 'En attente' : 'Annulé')}
                       </span>
                     </td>
-                    <td className="text-right">
-                      <div className="flex gap-2 justify-end">
+                    <td className={styles.textRight}>
+                      <div className={styles.actionsGroup}>
                         {res.status === 'pending' && (
                           <button
                             onClick={() => updateReservation(res.id, { status: 'confirmed' })}
-                            className="p-1.5 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 hover:bg-emerald-500/20 rounded-md transition-all"
+                            className={styles.confirmBtn}
                             title="Confirmer la réservation"
                           >
                             <Check size={14} />
@@ -149,7 +150,7 @@ export default function AdminReservations() {
                         {res.status !== 'cancelled' && (
                           <button
                             onClick={() => cancelReservation(res.id)}
-                            className="p-1.5 bg-red-500/10 border border-red-500/20 text-red-400 hover:bg-red-500/20 rounded-md transition-all"
+                            className={styles.cancelBtn}
                             title="Annuler la réservation"
                           >
                             <X size={14} />
@@ -161,7 +162,7 @@ export default function AdminReservations() {
                 ))
               ) : (
                 <tr>
-                  <td colSpan="6" className="text-center py-8 text-white/40">
+                  <td colSpan="6" className={`${styles.textMuted} text-center py-8`}>
                     Aucune réservation trouvée.
                   </td>
                 </tr>
@@ -171,19 +172,19 @@ export default function AdminReservations() {
         </div>
       </div>
 
-      {/* Add Modal */}
+      {/* Add Reservation Modal */}
       {showAddModal && (
-        <div className="modal-overlay">
-          <div className="modal-content relative">
-            <button 
+        <div className={styles.modalOverlay}>
+          <div className={styles.modalContent}>
+            <button
               onClick={() => setShowAddModal(false)}
-              className="absolute right-4 top-4 p-1.5 bg-white/5 border border-white/10 rounded-full hover:bg-white/10 text-white/60"
+              className={styles.modalCloseBtn}
             >
               <X size={16} />
             </button>
 
-            <h3 className="text-xl font-bold text-white mb-6">Créer une réservation</h3>
-            
+            <h3 className={styles.modalTitle}>Créer une réservation</h3>
+
             <form onSubmit={handleAddSubmit} className="space-y-4">
               <div>
                 <label className="form-label">Sélectionner un membre</label>
@@ -200,7 +201,7 @@ export default function AdminReservations() {
                 </select>
               </div>
 
-              <div className="grid grid-cols-2 gap-4">
+              <div className={styles.formGrid}>
                 <div>
                   <label className="form-label">Date</label>
                   <input
@@ -223,7 +224,7 @@ export default function AdminReservations() {
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-4">
+              <div className={styles.formGrid}>
                 <div>
                   <label className="form-label">Heure de début</label>
                   <select
@@ -260,26 +261,26 @@ export default function AdminReservations() {
 
               <div>
                 <label className="form-label">Formule de jeu</label>
-                <div className="flex gap-4">
-                  <label className="flex items-center gap-2 cursor-pointer text-sm">
-                    <input 
-                      type="radio" 
-                      name="players" 
-                      value="2" 
+                <div className={styles.radioGroup}>
+                  <label className={styles.radioLabel}>
+                    <input
+                      type="radio"
+                      name="players"
+                      value="2"
                       checked={newPlayers === '2'}
                       onChange={() => setNewPlayers('2')}
-                      className="accent-cyan-500" 
+                      className="accent-cyan-500"
                     />
                     2 Joueurs (Simple)
                   </label>
-                  <label className="flex items-center gap-2 cursor-pointer text-sm">
-                    <input 
-                      type="radio" 
-                      name="players" 
-                      value="4" 
+                  <label className={styles.radioLabel}>
+                    <input
+                      type="radio"
+                      name="players"
+                      value="4"
                       checked={newPlayers === '4'}
                       onChange={() => setNewPlayers('4')}
-                      className="accent-cyan-500" 
+                      className="accent-cyan-500"
                     />
                     4 Joueurs (Double)
                   </label>

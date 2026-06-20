@@ -1,0 +1,370 @@
+/* ClientDashboard.module.css */
+.pageContainer {
+    min-height: 100vh;
+    padding: 48px 24px;
+    /* py-12 px-6 */
+}
+
+.mainWrapper {
+    max-width: 64rem;
+    /* max-w-6xl */
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.mainWrapper>*+* {
+    margin-top: 32px;
+    /* space-y-8 */
+}
+
+/* Base Glass Card */
+.glassCard {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
+    position: relative;
+    overflow: hidden;
+}
+
+/* En-tête de bienvenue */
+.welcomeHeader {
+    composes: glassCard;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+@media (min-width: 640px) {
+    .welcomeHeader {
+        padding: 40px;
+        /* sm:p-10 */
+        flex-direction: row;
+        items-center: center;
+        justify-content: space-between;
+        gap: 24px;
+    }
+}
+
+.glow {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 192px;
+    /* w-48 */
+    height: 192px;
+    /* h-48 */
+    background-color: rgba(6, 182, 212, 0.05);
+    /* bg-cyan-500/5 */
+    border-radius: 50%;
+    filter: blur(40px);
+    pointer-events: none;
+}
+
+.profileSection {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+}
+
+@media (min-width: 640px) {
+    .profileSection {
+        flex-direction: row;
+        text-align: left;
+    }
+}
+
+.avatar {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background-color: rgba(6, 182, 212, 0.1);
+    border: 1px solid rgba(6, 182, 212, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #22d3ee;
+    font-weight: 900;
+    font-size: 24px;
+}
+
+.headerText {
+    text-align: center;
+}
+
+@media (min-width: 640px) {
+    .headerText {
+        text-align: left;
+    }
+}
+
+.welcomeTitle {
+    font-size: 24px;
+    font-weight: 800;
+    color: #ffffff;
+}
+
+@media (min-width: 640px) {
+    .welcomeTitle {
+        font-size: 30px;
+        /* sm:text-3xl */
+    }
+}
+
+.subscriptionInfo {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.5);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    justify-content: center;
+}
+
+@media (min-width: 640px) {
+    .subscriptionInfo {
+        justify-content: flex-start;
+    }
+}
+
+.cyanText {
+    color: #22d3ee;
+    font-weight: 700;
+}
+
+/* Zone Boutons */
+.buttonGroup {
+    display: flex;
+    gap: 12px;
+}
+
+.bookButton {
+    background-color: #22d3ee;
+    color: #000000;
+    font-weight: 600;
+    padding: 8px 20px;
+    border-radius: 8px;
+    font-size: 14px;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s ease;
+}
+
+.bookButton:hover {
+    background-color: #06b6d4;
+}
+
+.logoutButton {
+    background: transparent;
+    border: 1px solid rgba(239, 68, 68, 0.2);
+    color: #f87171;
+    font-weight: 500;
+    padding: 8px 20px;
+    border-radius: 8px;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.logoutButton:hover {
+    background-color: rgba(239, 68, 68, 0.1);
+    border-color: rgba(239, 68, 68, 0.4);
+}
+
+/* Grille Principale (Stats) */
+.statsGrid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 24px;
+}
+
+@media (min-width: 768px) {
+    .statsGrid {
+        grid-template-columns: repeat(3, 1fr);
+        /* md:grid-cols-3 */
+    }
+}
+
+.statCard {
+    composes: glassCard;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.statCardTitle {
+    font-size: 18px;
+    font-weight: 700;
+    color: #ffffff;
+    margin-bottom: 8px;
+}
+
+.statCardDesc {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.counterRow {
+    margin-top: 24px;
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+}
+
+.bigNumber {
+    font-size: 48px;
+    /* text-5xl */
+    font-weight: 900;
+    color: #22d3ee;
+}
+
+.unitText {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.4);
+}
+
+.cardActionLink {
+    font-size: 12px;
+    color: #22d3ee;
+    font-weight: 700;
+    margin-top: 16px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    text-decoration: none;
+}
+
+.cardActionLink:hover {
+    text-decoration: underline;
+}
+
+.statusBadge {
+    display: inline-flex;
+    padding: 4px 12px;
+    background-color: rgba(16, 185, 129, 0.2);
+    border: 1px solid rgba(16, 185, 129, 0.3);
+    color: #34d399;
+    font-size: 14px;
+    font-weight: 700;
+    border-radius: 9999px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.dateHint {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.4);
+    margin-top: 16px;
+    display: block;
+}
+
+/* Grille des Détails (Prochaines sessions) */
+.detailsGrid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 32px;
+}
+
+@media (min-width: 1024px) {
+    .detailsGrid {
+        grid-template-columns: repeat(2, 1fr);
+        /* lg:grid-cols-2 */
+    }
+}
+
+.detailsBlock {
+    composes: glassCard;
+    padding: 24px;
+}
+
+@media (min-width: 640px) {
+    .detailsBlock {
+        padding: 32px;
+        /* sm:p-8 */
+    }
+}
+
+.detailsBlockTitle {
+    font-size: 20px;
+    font-weight: 700;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 24px;
+}
+
+.activitiesList {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.activityRow {
+    padding: 16px;
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.activityDetails {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.activityName {
+    font-weight: 700;
+    color: #ffffff;
+}
+
+.metaItem {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.5);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.labelBadge {
+    padding: 4px 12px;
+    border-radius: 9999px;
+    font-size: 12px;
+    font-weight: 600;
+    background-color: rgba(6, 182, 212, 0.1);
+    color: #22d3ee;
+    border: 1px solid rgba(6, 182, 212, 0.2);
+}
+
+/* États vides (Empty States) */
+.emptyText {
+    text-align: center;
+    padding: 32px 0;
+    color: rgba(255, 255, 255, 0.4);
+    font-size: 14px;
+}
+
+.emptyLinkWrapper {
+    padding-top: 12px;
+}
+
+.emptyLink {
+    color: #22d3ee;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.emptyLink:hover {
+    text-decoration: underline;
+}

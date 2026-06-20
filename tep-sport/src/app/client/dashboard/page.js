@@ -1,10 +1,12 @@
 'use client';
+
 import { useEffect } from 'react';
 import { useAuth } from '@/context/AuthContext';
 import { useData } from '@/context/DataContext';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { Calendar, Clock, Trophy, Dumbbell, User, Award, ShieldAlert, ArrowRight, LogOut } from 'lucide-react';
+import { Calendar, Clock, Trophy, Dumbbell, Award, ArrowRight, LogOut } from 'lucide-react';
+import styles from './ClientDashboard.module.css'; // Importation du CSS Module
 
 export default function ClientDashboard() {
   const { user, logout, loading } = useAuth();
@@ -34,116 +36,113 @@ export default function ClientDashboard() {
   const upcomingCoaching = clientSeances.filter(s => s.status === 'confirmed' && new Date(s.date) >= new Date()).slice(0, 2);
 
   return (
-    <div className="min-h-screen py-12 px-6">
-      <div className="container mx-auto max-w-6xl space-y-8 animate-fade-in-up">
-        
+    <div className={styles.pageContainer}>
+      <div className={styles.mainWrapper}>
+
         {/* Welcome Header */}
-        <div className="glass-card p-6 sm:p-10 flex flex-col sm:flex-row items-center justify-between gap-6 relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-48 h-48 bg-cyan-500/5 rounded-full blur-3xl" />
-          
-          <div className="flex items-center gap-4 text-center sm:text-left">
-            <div className="w-16 h-16 rounded-full bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-cyan-400 font-black text-2xl">
+        <div className={styles.welcomeHeader}>
+          <div className={styles.glow} />
+
+          <div className={styles.profileSection}>
+            <div className={styles.avatar}>
               {user.name.charAt(0)}
             </div>
-            <div>
-              <h1 className="text-2xl sm:text-3xl font-extrabold text-white">Bonjour, {user.name}</h1>
-              <p className="text-sm text-white/50 flex items-center gap-1.5 justify-center sm:justify-start">
-                <Award size={14} className="text-cyan-400" /> Membre Formule <span className="text-cyan-400 font-bold">{user.subscription}</span>
+            <div className={styles.headerText}>
+              <h1 className={styles.welcomeTitle}>Bonjour, {user.name}</h1>
+              <p className={styles.subscriptionInfo}>
+                <Award size={14} className={styles.cyanText} /> Membre Formule <span className={styles.cyanText}>{user.subscription}</span>
               </p>
             </div>
           </div>
 
-          <div className="flex gap-3">
-            <Link href="/reserver" className="btn-primary py-2 px-5 text-sm">
+          <div className={styles.buttonGroup}>
+            <Link href="/reserver" className={styles.bookButton}>
               Réserver une séance
             </Link>
-            <button
-              onClick={logout}
-              className="btn-outline py-2 px-5 text-sm flex items-center gap-1 text-red-400 border-red-500/20 hover:bg-red-500/10 hover:border-red-500/40"
-            >
+            <button onClick={logout} className={styles.logoutButton}>
               <LogOut size={16} /> Déconnexion
             </button>
           </div>
         </div>
 
-        {/* Dashboard Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {/* Quick Stats */}
-          <div className="glass-card p-6 flex flex-col justify-between">
+        {/* Dashboard Grid (Stats cards) */}
+        <div className={styles.statsGrid}>
+          {/* Padel Stats Card */}
+          <div className={styles.statCard}>
             <div>
-              <h3 className="text-lg font-bold text-white mb-2">Padel</h3>
-              <p className="text-sm text-white/50">Vos réservations de terrain de Padel confirmées.</p>
+              <h3 className={styles.statCardTitle}>Padel</h3>
+              <p className={styles.statCardDesc}>Vos réservations de terrain de Padel confirmées.</p>
             </div>
-            <div className="mt-6 flex items-baseline gap-2">
-              <span className="text-5xl font-black text-cyan-400">{clientReservations.filter(r => r.status === 'confirmed').length}</span>
-              <span className="text-sm text-white/40">sessions</span>
+            <div className={styles.counterRow}>
+              <span className={styles.bigNumber}>{clientReservations.filter(r => r.status === 'confirmed').length}</span>
+              <span className={styles.unitText}>sessions</span>
             </div>
-            <Link href="/client/reservations" className="text-xs text-cyan-400 font-bold mt-4 flex items-center gap-1 hover:underline">
+            <Link href="/client/reservations" className={styles.cardActionLink}>
               Gérer mes réservations <ArrowRight size={12} />
             </Link>
           </div>
 
-          <div className="glass-card p-6 flex flex-col justify-between">
+          {/* Coaching Stats Card */}
+          <div className={styles.statCard}>
             <div>
-              <h3 className="text-lg font-bold text-white mb-2">Coaching</h3>
-              <p className="text-sm text-white/50">Séances d'entraînement encadrées par Yoan.</p>
+              <h3 className={styles.statCardTitle}>Coaching</h3>
+              <p className={styles.statCardDesc}>Séances d'entraînement encadrées par Yoan.</p>
             </div>
-            <div className="mt-6 flex items-baseline gap-2">
-              <span className="text-5xl font-black text-cyan-400">{clientSeances.filter(s => s.status === 'confirmed').length}</span>
-              <span className="text-sm text-white/40">séances</span>
+            <div className={styles.counterRow}>
+              <span className={styles.bigNumber}>{clientSeances.filter(s => s.status === 'confirmed').length}</span>
+              <span className={styles.unitText}>séances</span>
             </div>
-            <Link href="/client/reservations" className="text-xs text-cyan-400 font-bold mt-4 flex items-center gap-1 hover:underline">
+            <Link href="/client/reservations" className={styles.cardActionLink}>
               Voir mon historique <ArrowRight size={12} />
             </Link>
           </div>
 
-          <div className="glass-card p-6 flex flex-col justify-between">
+          {/* Profile Status Card */}
+          <div className={styles.statCard}>
             <div>
-              <h3 className="text-lg font-bold text-white mb-2">Statut profil</h3>
-              <p className="text-sm text-white/50">Validité et facturation de votre formule TEP Sport.</p>
+              <h3 className={styles.statCardTitle}>Statut profil</h3>
+              <p className={styles.statCardDesc}>Validité et facturation de votre formule TEP Sport.</p>
             </div>
-            <div className="mt-6 flex items-center gap-2">
-              <span className="px-3 py-1 bg-emerald-500/20 border border-emerald-500/30 text-emerald-400 text-sm font-bold rounded-full uppercase tracking-wider">
-                Actif
-              </span>
+            <div className={styles.counterRow}>
+              <span className={styles.statusBadge}>Actif</span>
             </div>
-            <span className="text-xs text-white/40 mt-4 block">Prochain prélèvement le 01/07</span>
+            <span className={styles.dateHint}>Prochain prélèvement le 01/07</span>
           </div>
         </div>
 
-        {/* Bookings details */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          
+        {/* Bookings Details Blocks */}
+        <div className={styles.detailsGrid}>
+
           {/* Upcoming Padel Sessions */}
-          <div className="glass-card p-6 sm:p-8 space-y-6">
-            <h3 className="text-xl font-bold text-white flex items-center gap-2">
-              <Trophy className="text-cyan-400" size={20} /> Prochains matchs de Padel
+          <div className={styles.detailsBlock}>
+            <h3 className={styles.detailsBlockTitle}>
+              <Trophy className={styles.cyanText} size={20} /> Prochains matchs de Padel
             </h3>
-            
+
             {upcomingPadel.length > 0 ? (
-              <div className="space-y-4">
+              <div className={styles.activitiesList}>
                 {upcomingPadel.map((res) => (
-                  <div key={res.id} className="p-4 bg-white/5 border border-white/5 rounded-xl flex items-center justify-between">
-                    <div className="space-y-1">
-                      <div className="font-bold text-white">{res.court}</div>
-                      <div className="text-xs text-white/50 flex items-center gap-1">
+                  <div key={res.id} className={styles.activityRow}>
+                    <div className={styles.activityDetails}>
+                      <div className={styles.activityName}>{res.court}</div>
+                      <div className={styles.metaItem}>
                         <Calendar size={12} /> {res.date}
                       </div>
-                      <div className="text-xs text-white/50 flex items-center gap-1">
+                      <div className={styles.metaItem}>
                         <Clock size={12} /> {res.startTime} - {res.endTime}
                       </div>
                     </div>
-                    <span className="px-3 py-1 rounded-full text-xs font-semibold bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">
+                    <span className={styles.labelBadge}>
                       {res.players} joueurs
                     </span>
                   </div>
                 ))}
               </div>
             ) : (
-              <div className="text-center py-8 text-white/40 text-sm">
+              <div className={styles.emptyText}>
                 Aucun match de padel programmé.
-                <div className="pt-3">
-                  <Link href="/reserver" className="text-cyan-400 font-bold hover:underline">
+                <div className={styles.emptyLinkWrapper}>
+                  <Link href="/reserver" className={styles.emptyLink}>
                     Réserver un terrain
                   </Link>
                 </div>
@@ -151,36 +150,36 @@ export default function ClientDashboard() {
             )}
           </div>
 
-          {/* Upcoming Coaching */}
-          <div className="glass-card p-6 sm:p-8 space-y-6">
-            <h3 className="text-xl font-bold text-white flex items-center gap-2">
-              <Dumbbell className="text-cyan-400" size={20} /> Prochaines séances de Coaching
+          {/* Upcoming Coaching Sessions */}
+          <div className={styles.detailsBlock}>
+            <h3 className={styles.detailsBlockTitle}>
+              <Dumbbell className={styles.cyanText} size={20} /> Prochaines séances de Coaching
             </h3>
-            
+
             {upcomingCoaching.length > 0 ? (
-              <div className="space-y-4">
+              <div className={styles.activitiesList}>
                 {upcomingCoaching.map((s) => (
-                  <div key={s.id} className="p-4 bg-white/5 border border-white/5 rounded-xl flex items-center justify-between">
-                    <div className="space-y-1">
-                      <div className="font-bold text-white">{s.type}</div>
-                      <div className="text-xs text-white/50 flex items-center gap-1">
+                  <div key={s.id} className={styles.activityRow}>
+                    <div className={styles.activityDetails}>
+                      <div className={styles.activityName}>{s.type}</div>
+                      <div className={styles.metaItem}>
                         <Calendar size={12} /> {s.date}
                       </div>
-                      <div className="text-xs text-white/50 flex items-center gap-1">
+                      <div className={styles.metaItem}>
                         <Clock size={12} /> {s.startTime} - {s.endTime}
                       </div>
                     </div>
-                    <span className="px-3 py-1 rounded-full text-xs font-semibold bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">
+                    <span className={styles.labelBadge}>
                       Coach : {s.coach}
                     </span>
                   </div>
                 ))}
               </div>
             ) : (
-              <div className="text-center py-8 text-white/40 text-sm">
+              <div className={styles.emptyText}>
                 Aucune séance de coaching programmée.
-                <div className="pt-3">
-                  <Link href="/reserver" className="text-cyan-400 font-bold hover:underline">
+                <div className={styles.emptyLinkWrapper}>
+                  <Link href="/reserver" className={styles.emptyLink}>
                     Réserver une séance
                   </Link>
                 </div>

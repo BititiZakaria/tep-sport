@@ -1,87 +1,148 @@
 'use client';
+
 import { useData } from '@/context/DataContext';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Calendar, Clock, MapPin, Users, Ticket, ArrowRight } from 'lucide-react';
+import { Calendar, Clock, Users, Ticket, ChevronRight } from 'lucide-react';
+import styles from './Evenements.module.css';
 
 export default function Evenements() {
-  const { events } = useData();
+  const { events = [] } = useData() || {};
 
   return (
-    <div className="flex flex-col min-h-screen pt-16">
-      {/* Hero Section */}
-      <section className="relative py-20 px-6">
-        <div className="container mx-auto max-w-5xl text-center space-y-6">
-          <span className="text-cyan-400 uppercase tracking-widest font-bold text-sm">Stages & Tournois</span>
-          <h1 className="text-4xl sm:text-6xl font-black text-white leading-tight">
-            Événements <span className="gradient-text-animated">TEP Sport</span>
-          </h1>
-          <p className="text-white/80 text-lg max-w-2xl mx-auto font-light leading-relaxed">
-            Rejoignez nos événements, tournois et stages thématiques pour booster vos performances et partager des moments de sport intenses.
-          </p>
-          <div className="w-24 h-1 bg-gradient-to-r from-cyan-400 to-blue-500 rounded-full mx-auto" />
-        </div>
-      </section>
+    <div className={styles.tepPage}>
 
-      {/* Events Grid */}
-      <section className="py-16 px-6 bg-black/30">
-        <div className="container mx-auto max-w-6xl">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-5xl mx-auto">
-            {events.map((evt) => (
-              <div key={evt.id} className="glass-card overflow-hidden group flex flex-col justify-between hover:border-cyan-500/30 transition-all duration-300">
-                <div className="relative h-48 w-full">
-                  <Image
-                    src={evt.image}
-                    alt={evt.title}
-                    fill
-                    className="object-cover group-hover:scale-105 transition-transform duration-500"
-                    sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/40 to-transparent" />
-                  <span className="absolute top-4 left-4 bg-cyan-500 text-black text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">
-                    {evt.category}
-                  </span>
-                </div>
-
-                <div className="p-6 flex-1 flex flex-col justify-between space-y-6">
-                  <div className="space-y-3">
-                    <h3 className="text-xl font-bold text-white group-hover:text-cyan-400 transition-colors">
-                      {evt.title}
-                    </h3>
-                    <p className="text-sm text-white/60 leading-relaxed line-clamp-3">
-                      {evt.description}
-                    </p>
-                  </div>
-
-                  <div className="space-y-2.5 pt-2 border-t border-white/5 text-xs text-white/70">
-                    <div className="flex items-center gap-2">
-                      <Calendar size={14} className="text-cyan-400" />
-                      <span>{new Date(evt.date).toLocaleDateString('fr-FR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <Clock size={14} className="text-cyan-400" />
-                      <span>{evt.time}</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <Users size={14} className="text-cyan-400" />
-                      <span>{evt.spotsLeft} places restantes / {evt.spots} max</span>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="p-6 pt-0">
-                  <Link 
-                    href="/reserver"
-                    className="btn-primary w-full text-center py-2.5 text-sm flex items-center justify-center gap-1.5"
-                  >
-                    <Ticket size={16} /> S'inscrire à l'événement
-                  </Link>
-                </div>
-              </div>
-            ))}
+      {/* ── Hero ── */}
+      <section className={styles.tepHero}>
+        <div className={styles.tepHeroEyebrow}>Stages &amp; Tournois</div>
+        <h1>Événements <em>TEP Sport</em></h1>
+        <p className={styles.tepHeroSub}>
+          Rejoignez nos événements, tournois et stages thématiques pour booster vos performances et vivre des moments de sport intenses.
+        </p>
+        <div className={styles.tepHeroStats}>
+          <div className={styles.tepStat}>
+            <span className={styles.tepStatNum}>{events.length}</span>
+            <span className={styles.tepStatLabel}>Événements</span>
+          </div>
+          <div className={styles.tepStat}>
+            <span className={styles.tepStatNum}>
+              {events.reduce((acc, e) => acc + (e.spotsLeft || 0), 0)}
+            </span>
+            <span className={styles.tepStatLabel}>Places disponibles</span>
+          </div>
+          <div className={styles.tepStat}>
+            <span className={styles.tepStatNum}>
+              {[...new Set(events.map((e) => e.category))].length}
+            </span>
+            <span className={styles.tepStatLabel}>Catégories</span>
           </div>
         </div>
       </section>
+
+      {/* ── Events Grid ── */}
+      <div className={styles.tepGridSection}>
+        <div className={styles.tepSectionHeader}>
+          <span className={styles.tepSectionTitle}>Prochains événements</span>
+          <span className={styles.tepSectionCount}>{events.length} événement{events.length !== 1 ? 's' : ''}</span>
+        </div>
+
+        <div className={styles.tepGrid}>
+          {events.length === 0 ? (
+            <div className={styles.tepEmpty}>
+              <div className={styles.tepEmptyIcon}>📅</div>
+              <h3>Aucun événement planifié</h3>
+              <p>Revenez bientôt pour découvrir nos prochains stages et tournois.</p>
+            </div>
+          ) : (
+            events.map((evt) => {
+              const isLow = evt.spotsLeft <= Math.round(evt.spots * 0.2);
+
+              return (
+                <div key={evt.id} className={styles.tepCard}>
+                  {/* Image */}
+                  <div className={styles.tepCardImage}>
+                    {evt.image ? (
+                      <Image
+                        src={evt.image}
+                        alt={evt.title}
+                        fill
+                        style={{ objectFit: 'cover' }}
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                      />
+                    ) : (
+                      <div style={{ color: '#64748b', display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%' }}>Pas d'image</div>
+                    )}
+                    <span className={styles.tepCardBadge}>{evt.category}</span>
+                    <span className={styles.tepCardSpots}>
+                      <span className={`${styles.tepCardSpotsDot} ${isLow ? styles.tepCardSpotsDotLow : ''}`} />
+                      {evt.spotsLeft} place{evt.spotsLeft !== 1 ? 's' : ''}
+                    </span>
+                  </div>
+
+                  {/* Body */}
+                  <div className={styles.tepCardBody}>
+                    <h3 className={styles.tepCardTitle}>{evt.title}</h3>
+                    <p className={styles.tepCardDesc}>{evt.description}</p>
+
+                    <div className={styles.tepCardMeta}>
+                      <div className={styles.tepCardMetaRow}>
+                        <Calendar size={13} />
+                        <span>
+                          {evt.date ? new Date(evt.date).toLocaleDateString('fr-FR', {
+                            weekday: 'long',
+                            year: 'numeric',
+                            month: 'long',
+                            day: 'numeric',
+                          }) : 'Date à venir'}
+                        </span>
+                      </div>
+                      <div className={styles.tepCardMetaRow}>
+                        <Clock size={13} />
+                        <span>{evt.time}</span>
+                      </div>
+                      <div className={styles.tepCardMetaRow}>
+                        <Users size={13} />
+                        <span>
+                          {evt.spots - evt.spotsLeft} / {evt.spots} inscrits
+                          {isLow && (
+                            <strong style={{ color: '#f97316', marginLeft: 6 }}>
+                              — Dernières places !
+                            </strong>
+                          )}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Footer */}
+                  <div className={styles.tepCardFooter}>
+                    <Link href="/reserver" className={styles.tepBtnPrimary}>
+                      <Ticket size={15} />
+                      S'inscrire à l'événement
+                      <ChevronRight size={15} />
+                    </Link>
+                  </div>
+                </div>
+              );
+            })
+          )}
+        </div>
+      </div>
+
+      {/* ── CTA Banner ── */}
+      <section className={styles.tepCta}>
+        <h2>
+          Prêt à rejoindre<br />
+          <span>l'aventure TEP Sport ?</span>
+        </h2>
+        <p>
+          Réservez votre place dès maintenant et vivez une expérience sportive encadrée par des professionnels.
+        </p>
+        <Link href="/reserver" className={styles.tepCtaLink}>
+          Réserver maintenant <ChevronRight size={18} />
+        </Link>
+      </section>
+
     </div>
   );
 }

@@ -1,0 +1,404 @@
+/* Reserver.module.css */
+.reserverPage {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    padding-top: 64px;
+}
+
+.heroSection {
+    padding: 48px 24px;
+    text-align: center;
+}
+
+.heroSection space-y-4>*+* {
+    margin-top: 16px;
+}
+
+.heroEyebrow {
+    color: #22d3ee;
+    /* cyan-400 */
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-weight: 700;
+    font-size: 14px;
+}
+
+.heroTitle {
+    font-size: clamp(2.5rem, 6vw, 3.75rem);
+    font-weight: 900;
+    color: #ffffff;
+}
+
+.heroDescription {
+    color: rgba(255, 255, 255, 0.7);
+    max-width: 42rem;
+    margin: 0 auto;
+    font-size: clamp(14px, 2vw, 16px);
+    line-height: 1.625;
+}
+
+.mainSection {
+    padding: 32px 24px;
+    background-color: rgba(0, 0, 0, 0.3);
+    flex: 1 1 0%;
+}
+
+.container {
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 72rem;
+}
+
+.gridContainer {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 32px;
+    align-items: start;
+}
+
+@media (min-width: 1024px) {
+    .gridContainer {
+        grid-template-columns: repeat(12, minmax(0, 1fr));
+    }
+
+    .formColumn {
+        grid-column: span 8 / span 8;
+    }
+
+    .infoColumn {
+        grid-column: span 4 / span 4;
+    }
+}
+
+.formColumn,
+.infoColumn {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+/* Formulaire et Cartes style "Glass" */
+.glassCard {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
+    padding: 24px;
+}
+
+@media (min-width: 640px) {
+    .glassCard {
+        padding: 40px;
+    }
+}
+
+.glassCardInfo {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
+    padding: 24px;
+}
+
+.cardTitle {
+    font-size: 24px;
+    font-weight: 700;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.cardTitleIcon {
+    color: #22d3ee;
+}
+
+.subCardTitle {
+    font-size: 20px;
+    font-weight: 700;
+    color: #ffffff;
+}
+
+.infoCardTitle {
+    font-size: 18px;
+    font-weight: 700;
+    color: #ffffff;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    padding-bottom: 8px;
+    margin-bottom: 16px;
+}
+
+/* Success Messages */
+.successAlert {
+    padding: 24px;
+    background-color: rgba(16, 185, 129, 0.1);
+    border: 1px solid rgba(16, 185, 129, 0.2);
+    border-radius: 12px;
+    text-align: center;
+}
+
+.successIconWrapper {
+    width: 48px;
+    height: 48px;
+    background-color: rgba(16, 185, 129, 0.2);
+    border-radius: 9999px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 16px;
+    color: #34d399;
+}
+
+.successTitle {
+    font-size: 20px;
+    font-weight: 700;
+    color: #ffffff;
+    margin-bottom: 8px;
+}
+
+.successText {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.7);
+    margin-bottom: 16px;
+}
+
+.successButtons {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+}
+
+.contactSuccessAlert {
+    padding: 16px;
+    background-color: rgba(16, 185, 129, 0.1);
+    border: 1px solid rgba(16, 185, 129, 0.2);
+    border-radius: 8px;
+    font-size: 14px;
+    color: #34d399;
+}
+
+/* Éléments de formulaire */
+.formGridGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.formLabel {
+    font-size: 14px;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.serviceGrid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+}
+
+@media (min-width: 640px) {
+    .serviceGrid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .dateTimeGrid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 16px;
+    }
+}
+
+.serviceButton {
+    padding: 16px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.05);
+    color: rgba(255, 255, 255, 0.7);
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 112px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.serviceButton:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.serviceButtonActive {
+    background: rgba(34, 211, 238, 0.1);
+    border-color: #22d3ee;
+    color: #22d3ee;
+}
+
+.serviceButtonLabel {
+    font-weight: 700;
+    font-size: 14px;
+}
+
+/* Inputs standardisés */
+.formInput,
+.formSelect,
+.formTextarea {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    padding: 10px 14px;
+    color: #ffffff;
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.15s ease;
+}
+
+.formInput:focus,
+.formSelect:focus,
+.formTextarea:focus {
+    border-color: #22d3ee;
+}
+
+.formTextarea {
+    resize: none;
+}
+
+/* Radios */
+.radioGroup {
+    display: flex;
+    gap: 16px;
+}
+
+.radioLabel {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #ffffff;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.radioInput {
+    accent-color: #22d3ee;
+}
+
+/* Boutons et liens */
+.btnPrimary {
+    width: 100%;
+    background: #22d3ee;
+    color: #000000;
+    font-weight: 700;
+    padding: 12px 20px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    transition: opacity 0.15s ease;
+    font-size: 14px;
+}
+
+.btnPrimary:hover {
+    opacity: 0.9;
+}
+
+.btnPrimaryInline {
+    composes: btnPrimary;
+    width: auto;
+    padding: 8px 20px;
+}
+
+.btnOutline {
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #ffffff;
+    font-weight: 700;
+    padding: 8px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.15s ease;
+    font-size: 14px;
+}
+
+.btnOutline:hover {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+/* Log Callout Box */
+.loginCallout {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    border: 1px solid rgba(34, 211, 238, 0.2);
+}
+
+.loginCalloutIcon {
+    color: #22d3ee;
+    margin: 0 auto;
+}
+
+.calloutText {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.7);
+    max-width: 28rem;
+    margin: 0 auto;
+    line-height: 1.625;
+}
+
+/* Bloc d'informations à droite */
+.infoList {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.infoItem {
+    display: flex;
+    gap: 12px;
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.infoItemAlign {
+    composes: infoItem;
+    align-items: center;
+}
+
+.infoIcon {
+    color: #22d3ee;
+    flex-shrink: 0;
+}
+
+.infoIconMap {
+    composes: infoIcon;
+    margin-top: 2px;
+}
+
+.infoLink {
+    color: inherit;
+    text-decoration: none;
+    transition: color 0.15s ease;
+}
+
+.infoLink:hover {
+    color: #22d3ee;
+}
+
+.infoParagraph {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 12px;
+    line-height: 1.625;
+}
+
+.infoParagraph strong {
+    color: rgba(255, 255, 255, 0.8);
+}

@@ -1,7 +1,9 @@
 'use client';
+
 import Image from 'next/image';
 import Link from 'next/link';
-import { Target, Users, TrendingUp, Calendar, CheckCircle2, Dumbbell, Shield, Sparkles } from 'lucide-react';
+import { Target, Users, TrendingUp, Calendar, Trophy } from 'lucide-react';
+import styles from './PreparationPhysique.module.css'; // Liaison du CSS Module
 
 export default function PreparationPhysique() {
   const targets = [
@@ -13,46 +15,47 @@ export default function PreparationPhysique() {
 
   const pillars = [
     { num: 1, title: 'Technique', desc: 'Une attention particulière à la technique pour éviter les blessures et optimiser chaque mouvement.' },
-    { num: 2, title: 'Régularité', desc: 'Création d\'habitudes d\'entraînement pour un progrès continu et durable dans le temps.' },
-    { num: 3, title: 'Intensité', desc: 'Calcul de charge et d\'intensité adapté à vos capacités du jour pour des résultats maximaux.' },
+    { num: 2, title: 'Régularité', desc: "Création d'habitudes d'entraînement pour un progrès continu et durable dans le temps." },
+    { num: 3, title: 'Intensité', desc: "Calcul de charge et d'intensité adapté à vos capacités du jour pour des résultats maximaux." },
     { num: 4, title: 'Planification', desc: 'Cycles de travail structurés avec bilans réguliers pour suivre votre évolution.' }
   ];
 
   return (
-    <div className="flex flex-col min-h-screen pt-16">
+    <div className={styles.pageWrapper}>
       {/* Hero Section */}
-      <section className="relative py-20 px-6">
-        <div className="container mx-auto max-w-6xl z-10 relative">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+      <section className={styles.heroSection}>
+        <div className={styles.container}>
+          <div className={styles.heroGrid}>
             {/* Left Info */}
-            <div className="space-y-6 text-center lg:text-left">
-              <span className="text-cyan-400 uppercase tracking-widest font-bold text-sm">Prestations</span>
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-white leading-tight">
+            <div className={styles.heroLeft}>
+              <span className={styles.badgeText}>Prestations</span>
+              <h1 className={styles.heroTitle}>
                 Préparation<br />
-                <span className="gradient-text-animated">physique & coaching</span>
+                <span className={styles.gradientTextAnimated}>physique & coaching</span>
               </h1>
-              <p className="text-white/80 text-lg font-light leading-relaxed">
+              <p className={styles.heroDesc}>
                 Un accompagnement personnalisé, construit autour de vos objectifs et de votre rythme, pour vous permettre de progresser de manière efficace et durable.
               </p>
-              <div className="w-24 h-1 bg-gradient-to-r from-cyan-400 to-blue-500 rounded-full mx-auto lg:mx-0" />
-              <div className="flex flex-col sm:flex-row gap-4 pt-4 justify-center lg:justify-start">
-                <Link href="/reserver" className="btn-primary">
+              <div className={styles.decorativeLine} />
+              <div className={styles.ctaWrapper}>
+                <Link href="/reserver" className={styles.btnPrimary}>
                   Réserver maintenant
                 </Link>
-                <Link href="/abonnements" className="btn-outline">
+                <Link href="/abonnements" className={styles.btnOutline}>
                   Découvrir les formules
                 </Link>
               </div>
             </div>
 
             {/* Right Images Display */}
-            <div className="relative aspect-[4/3] rounded-2xl overflow-hidden border border-white/10 shadow-2xl">
+            <div className={styles.imageFrame}>
               <Image
                 src="https://www.tep-sport.com/images/prep1.jpg"
                 alt="Coaching physique"
                 fill
-                className="object-cover hover:scale-105 transition-transform duration-700"
+                className={styles.heroImage}
                 sizes="(max-width: 1024px) 100vw, 600px"
+                priority
               />
             </div>
           </div>
@@ -60,25 +63,27 @@ export default function PreparationPhysique() {
       </section>
 
       {/* For Whom section */}
-      <section className="py-20 px-6 bg-black/30">
-        <div className="container mx-auto max-w-6xl">
-          <div className="text-center max-w-2xl mx-auto mb-16 space-y-4">
-            <span className="text-cyan-400 uppercase tracking-widest font-bold text-sm">Accessibilité</span>
-            <h2 className="text-3xl sm:text-5xl font-extrabold text-white">Pour qui ?</h2>
-            <p className="text-white/60">
+      <section className={styles.bgAlternatedSection}>
+        <div className={styles.container}>
+          <div className={styles.sectionHeader}>
+            <span className={styles.badgeText}>Accessibilité</span>
+            <h2 className={styles.sectionTitle}>Pour qui ?</h2>
+            <p className={styles.sectionSubtitle}>
               Nos séances de coaching s'adaptent à tous les profils et tous les niveaux de pratique.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl mx-auto">
+          <div className={styles.targetsGrid}>
             {targets.map((target, idx) => (
-              <div key={idx} className="glass-card p-6 flex gap-4 hover:border-cyan-500/30 transition-all duration-300">
-                <div className="w-12 h-12 rounded-lg bg-cyan-500/10 border border-cyan-500/25 flex items-center justify-center shrink-0">
-                  {target.icon}
-                </div>
-                <div className="space-y-1">
-                  <h3 className="text-lg font-bold text-white">{target.title}</h3>
-                  <p className="text-sm text-white/60 leading-relaxed">{target.desc}</p>
+              <div key={idx} className={styles.glassCard}>
+                <div className={styles.targetCardContent}>
+                  <div className={styles.iconBox}>
+                    {target.icon}
+                  </div>
+                  <div className={styles.cardTextBlock}>
+                    <h3 className={styles.cardTitle}>{target.title}</h3>
+                    <p className={styles.cardDesc}>{target.desc}</p>
+                  </div>
                 </div>
               </div>
             ))}
@@ -87,27 +92,27 @@ export default function PreparationPhysique() {
       </section>
 
       {/* Method Pillars */}
-      <section className="py-20 px-6">
-        <div className="container mx-auto max-w-6xl">
-          <div className="text-center max-w-2xl mx-auto mb-16 space-y-4">
-            <span className="text-cyan-400 uppercase tracking-widest font-bold text-sm">Méthodologie</span>
-            <h2 className="text-3xl sm:text-5xl font-extrabold text-white">Les 4 Piliers TEP</h2>
-            <p className="text-white/60 font-light">
+      <section className={styles.standardSection}>
+        <div className={styles.container}>
+          <div className={styles.sectionHeader}>
+            <span className={styles.badgeText}>Méthodologie</span>
+            <h2 className={styles.sectionTitle}>Les 4 Piliers TEP</h2>
+            <p className={styles.sectionSubtitle}>
               Une rigueur scientifique et technique au service de votre progression.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className={styles.pillarsGrid}>
             {pillars.map((pillar) => (
-              <div key={pillar.num} className="glass-card p-6 space-y-4 border border-white/5 relative overflow-hidden group hover:border-cyan-500/30 transition-all">
-                <div className="absolute right-4 top-2 text-6xl font-black text-white/5 group-hover:text-cyan-400/5 transition-colors">
+              <div key={pillar.num} className={styles.pillarCard}>
+                <div className={styles.pillarWatermark}>
                   0{pillar.num}
                 </div>
-                <div className="w-10 h-10 rounded-full bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center font-bold text-cyan-400">
+                <div className={styles.pillarBadge}>
                   {pillar.num}
                 </div>
-                <h3 className="text-lg font-bold text-white">{pillar.title}</h3>
-                <p className="text-sm text-white/60 leading-relaxed">{pillar.desc}</p>
+                <h3 className={styles.cardTitle}>{pillar.title}</h3>
+                <p className={styles.cardDesc}>{pillar.desc}</p>
               </div>
             ))}
           </div>

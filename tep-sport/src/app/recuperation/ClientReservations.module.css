@@ -1,0 +1,504 @@
+/* ClientReservations.module.css */
+.pageWrapper {
+    min-height: 100vh;
+    background-color: #0a0a0a;
+    /* neutral-950 */
+    color: #f5f5f5;
+    /* neutral-100 */
+    font-smoothing: antialiased;
+    -webkit-font-smoothing: antialiased;
+    position: relative;
+    overflow: hidden;
+    padding-top: 48px;
+    padding-bottom: 48px;
+    padding-left: 16px;
+    padding-right: 16px;
+}
+
+@media (min-width: 640px) {
+    .pageWrapper {
+        padding-left: 24px;
+        padding-right: 24px;
+    }
+}
+
+@media (min-width: 1024px) {
+    .pageWrapper {
+        padding-left: 32px;
+        padding-right: 32px;
+    }
+}
+
+/* Sélection de texte personnalisée */
+.pageWrapper :global(::selection) {
+    background-color: rgba(6, 182, 212, 0.3);
+    color: #c5f6fa;
+}
+
+/* Glow d'arrière-plan */
+.backgroundGlow {
+    position: absolute;
+    top: 0;
+    left: 25%;
+    transform: translateX(-50%);
+    width: 384px;
+    /* w-96 */
+    height: 384px;
+    /* h-96 */
+    background-color: rgba(6, 182, 212, 0.05);
+    border-radius: 9999px;
+    filter: blur(64px);
+    pointer-events: none;
+}
+
+.container {
+    max-width: 64rem;
+    /* max-w-5xl */
+    margin-left: auto;
+    margin-right: auto;
+    composes: space-y-10 from global;
+    position: relative;
+    z-index: 10;
+}
+
+/* Top Navigation Section */
+.topNav {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    border-bottom: 1px solid #262626;
+    /* neutral-800 */
+    padding-bottom: 24px;
+}
+
+@media (min-width: 640px) {
+    .topNav {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+    }
+}
+
+.backLink {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #a3a3a3;
+    /* neutral-400 */
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.backLink:hover {
+    color: #22d3ee;
+    /* cyan-400 */
+}
+
+.backLink svg {
+    transition: transform 0.2s ease;
+}
+
+.backLink:hover svg {
+    transform: translateX(-2px);
+}
+
+.newReservationBtn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background-color: #06b6d4;
+    /* cyan-500 */
+    color: #0a0a0a;
+    /* neutral-950 */
+    font-weight: 600;
+    padding: 10px 16px;
+    border-radius: 12px;
+    font-size: 14px;
+    text-decoration: none;
+    box-shadow: 0 10px 15px -3px rgba(6, 182, 212, 0.1);
+    transition: all 0.2s ease;
+}
+
+.newReservationBtn:hover {
+    background-color: #22d3ee;
+    /* cyan-400 */
+    box-shadow: 0 10px 15px -3px rgba(34, 211, 238, 0.2);
+    transform: translateY(-2px);
+}
+
+/* Header Text */
+.headerTitleBlock {
+    composes: space-y-2 from global;
+}
+
+.mainTitle {
+    font-size: 30px;
+    font-weight: 900;
+    letter-spacing: -0.025em;
+    color: #ffffff;
+}
+
+@media (min-width: 640px) {
+    .mainTitle {
+        font-size: 36px;
+    }
+}
+
+/* Support du dégradé de texte moderne */
+@supports (-webkit-background-clip: text) or (background-clip: text) {
+    .mainTitle {
+        background: linear-gradient(to right, #ffffff, #a3a3a3);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+}
+
+.subtitle {
+    font-size: 14px;
+    color: #a3a3a3;
+}
+
+/* Tabs Navigation */
+.tabsContainer {
+    display: flex;
+    background-color: rgba(23, 23, 23, 0.6);
+    /* neutral-900/60 */
+    padding: 4px;
+    border-radius: 12px;
+    border: 1px solid #262626;
+    max-width: 448px;
+    /* max-w-md */
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+}
+
+.tabButton {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    border-radius: 8px;
+    border: 1px solid transparent;
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.tabActive {
+    background-color: #262626;
+    /* neutral-800 */
+    color: #22d3ee;
+    /* cyan-400 */
+    border-color: rgba(38, 38, 38, 0.5);
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+}
+
+.tabInactive {
+    color: #a3a3a3;
+}
+
+.tabInactive:hover {
+    color: #e5e5e5;
+}
+
+.badge {
+    margin-left: 4px;
+    padding: 2px 8px;
+    font-size: 12px;
+    border-radius: 6px;
+}
+
+.badgeActive {
+    background-color: rgba(6, 182, 212, 0.1);
+    color: #22d3ee;
+}
+
+.badgeInactive {
+    background-color: #262626;
+    color: #737373;
+}
+
+/* Reservation Cards & Grid */
+.listWrapper {
+    composes: space-y-4 from global;
+}
+
+.cardsGrid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+}
+
+.card {
+    background-color: rgba(23, 23, 23, 0.4);
+    border: 1px solid #262626;
+    border-radius: 16px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 24px;
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    transition: all 0.3s ease;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05);
+}
+
+.card:hover {
+    background-color: rgba(23, 23, 23, 0.8);
+    border-color: rgba(64, 64, 64, 0.6);
+}
+
+@media (min-width: 640px) {
+    .card {
+        flex-direction: row;
+        align-items: center;
+        padding: 24px;
+    }
+}
+
+.cardMainInfo {
+    display: flex;
+    gap: 16px;
+    align-items: start;
+}
+
+@media (min-width: 640px) {
+    .cardMainInfo {
+        align-items: center;
+    }
+}
+
+.iconContainer {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    background-color: rgba(6, 182, 212, 0.1);
+    border: 1px solid rgba(6, 182, 212, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #22d3ee;
+    flex-shrink: 0;
+    box-shadow: inset 0 2px 4px 0 rgba(0, 0, 0, 0.06);
+    transition: transform 0.3s ease;
+}
+
+.card:hover .iconContainer {
+    transform: scale(1.05);
+}
+
+.textContainer {
+    composes: space-y-1.5 from global;
+}
+
+.itemTitle {
+    font-weight: 700;
+    color: #ffffff;
+    font-size: 18px;
+    letter-spacing: -0.025em;
+    margin: 0;
+}
+
+.metadataFlex {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    column-gap: 16px;
+    row-gap: 6px;
+    font-size: 14px;
+    color: #a3a3a3;
+}
+
+.metaItem {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.metaIcon {
+    color: #737373;
+}
+
+.divider {
+    display: none;
+    height: 12px;
+    width: 1px;
+    background-color: #262626;
+}
+
+@media (min-width: 640px) {
+    .divider {
+        display: block;
+    }
+}
+
+.inlineBadge {
+    font-size: 12px;
+    background-color: #262626;
+    color: #d4d4d4;
+    padding: 2px 8px;
+    border-radius: 6px;
+    border: 1px solid rgba(64, 64, 64, 0.5);
+}
+
+.coachingBadge {
+    font-size: 12px;
+    background-color: rgba(8, 145, 178, 0.4);
+    color: #22d3ee;
+    padding: 2px 8px;
+    border-radius: 6px;
+    border: 1px solid rgba(6, 182, 212, 0.1);
+}
+
+.notesBlock {
+    font-size: 12px;
+    color: #737373;
+    font-style: italic;
+    margin-top: 4px;
+    background-color: rgba(0, 0, 0, 0.4);
+    padding: 4px 10px;
+    border-radius: 6px;
+    display: inline-block;
+    border: 1px solid #171717;
+}
+
+/* Card Actions / Right Side */
+.cardActionBlock {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    width: 100%;
+    justify-content: space-between;
+    border-top: 1px solid rgba(38, 38, 38, 0.6);
+    padding-top: 16px;
+}
+
+@media (min-width: 640px) {
+    .cardActionBlock {
+        width: auto;
+        justify-content: flex-end;
+        border-top: 0;
+        padding-top: 0;
+    }
+}
+
+.cancelActionBtn {
+    color: #737373;
+    padding: 10px;
+    border-radius: 12px;
+    background: transparent;
+    border: 1px solid transparent;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.cancelActionBtn:hover {
+    color: #f87171;
+    /* red-400 */
+    background-color: rgba(239, 68, 68, 0.1);
+    border-color: rgba(239, 68, 68, 0.2);
+}
+
+/* Empty States */
+.emptyState {
+    text-align: center;
+    padding-top: 64px;
+    padding-bottom: 64px;
+    background-color: rgba(23, 23, 23, 0.2);
+    border: 1px dashed #262626;
+    border-radius: 16px;
+    color: #737373;
+    font-size: 14px;
+}
+
+.emptyIcon {
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 12px;
+    color: #404040;
+    opacity: 0.6;
+}
+
+/* Policy Callout Box */
+.policyCallout {
+    padding: 16px;
+    border-radius: 12px;
+    border: 1px solid rgba(245, 158, 11, 0.1);
+    /* amber-500/10 */
+    background-color: rgba(245, 158, 11, 0.05);
+    /* amber-500/5 */
+    display: flex;
+    align-items: start;
+    gap: 14px;
+    max-width: 56rem;
+}
+
+.policyIcon {
+    color: #f59e0b;
+    /* amber-500 */
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+.policyContent {
+    composes: space-y-0.5 from global;
+}
+
+.policyTitle {
+    font-size: 12px;
+    font-weight: 700;
+    color: rgba(245, 158, 11, 0.9);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin: 0;
+}
+
+.policyText {
+    font-size: 12px;
+    color: #a3a3a3;
+    line-height: 1.625;
+    margin: 0;
+}
+
+.policyText strong {
+    color: #e5e5e5;
+    font-weight: 600;
+}
+
+/* Loading Layout */
+.loaderOverlay {
+    min-height: 100vh;
+    background-color: #0a0a0a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.spinner {
+    width: 48px;
+    height: 48px;
+    border-width: 4px;
+    border-style: solid;
+    border-color: #06b6d4;
+    border-top-color: transparent;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}

@@ -1,0 +1,321 @@
+/* CoursCollectifs.module.css */
+.pageContainer {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    padding-top: 64px;
+    /* pt-16 */
+}
+
+/* Animations & Hero Section */
+.heroSection {
+    position: relative;
+    padding-top: 80px;
+    padding-bottom: 80px;
+    padding-left: 24px;
+    padding-right: 24px;
+}
+
+.heroContainer {
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 64rem;
+    /* max-w-5xl */
+    text-align: center;
+    composes: space-y-6 from global;
+    animation: fadeInUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.tagline {
+    color: #22d3ee;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-weight: 700;
+    font-size: 14px;
+}
+
+.mainTitle {
+    font-size: 36px;
+    font-weight: 900;
+    color: #ffffff;
+    margin: 0;
+}
+
+@media (min-width: 640px) {
+    .mainTitle {
+        font-size: 60px;
+    }
+}
+
+.descriptionHero {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 18px;
+    max-width: 42rem;
+    margin-left: auto;
+    margin-right: auto;
+    font-weight: 300;
+    line-height: 1.625;
+}
+
+.divider {
+    width: 96px;
+    height: 4px;
+    background: linear-gradient(to right, #22d3ee, #3b82f6);
+    border-radius: 9999px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.actionWrapper {
+    padding-top: 16px;
+}
+
+/* Section Liste de cours */
+.classListSection {
+    padding-top: 64px;
+    padding-bottom: 64px;
+    padding-left: 24px;
+    padding-right: 24px;
+    background-color: rgba(0, 0, 0, 0.3);
+}
+
+.sectionContainer {
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 72rem;
+    /* max-w-6xl */
+}
+
+.sectionHeader {
+    text-align: center;
+    max-width: 42rem;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 64px;
+    composes: space-y-4 from global;
+}
+
+.sectionTitle {
+    font-size: 30px;
+    font-weight: 800;
+    color: #ffffff;
+    margin: 0;
+}
+
+@media (min-width: 640px) {
+    .sectionTitle {
+        font-size: 48px;
+    }
+}
+
+.sectionSubtitle {
+    color: rgba(255, 255, 255, 0.6);
+    margin: 0;
+}
+
+/* Grille et Cartes de cours */
+.coursesGrid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 24px;
+}
+
+@media (min-width: 768px) {
+    .coursesGrid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (min-width: 1024px) {
+    .coursesGrid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+.courseCard {
+    background-color: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 16px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: all 0.3s ease;
+}
+
+.courseCard:hover {
+    border-color: rgba(6, 182, 212, 0.3);
+}
+
+.cardInner {
+    composes: space-y-4 from global;
+}
+
+.cardTopRow {
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+}
+
+.courseNameBadge {
+    padding: 4px 12px;
+    background-color: rgba(6, 182, 212, 0.1);
+    border: 1px solid rgba(6, 182, 212, 0.2);
+    color: #22d3ee;
+    font-size: 12px;
+    font-weight: 600;
+    border-radius: 9999px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.timeTag {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.5);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.courseDay {
+    font-size: 20px;
+    font-weight: 700;
+    color: #ffffff;
+    margin: 0;
+    transition: color 0.2s ease;
+}
+
+.courseCard:hover .courseDay {
+    color: #22d3ee;
+}
+
+.courseDescription {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.6);
+    line-height: 1.625;
+    margin: 0;
+}
+
+/* Footer de la carte */
+.cardFooter {
+    margin-top: 24px;
+    padding-top: 16px;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.coachInfo,
+.spotsInfo {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.coachInfo {
+    font-weight: 500;
+}
+
+/* Section Informations / Règles */
+.rulesSection {
+    padding-top: 80px;
+    padding-bottom: 80px;
+    padding-left: 24px;
+    padding-right: 24px;
+}
+
+.rulesContainer {
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 56rem;
+    /* max-w-4xl */
+}
+
+.warningBox {
+    padding: 32px;
+    background-color: rgba(234, 179, 8, 0.03);
+    border: 1px solid rgba(234, 179, 8, 0.1);
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    align-items: center;
+}
+
+@media (min-width: 768px) {
+    .warningBox {
+        flex-direction: row;
+    }
+}
+
+.warningIconWrapper {
+    width: 48px;
+    height: 48px;
+    border-radius: 9999px;
+    background-color: rgba(234, 179, 8, 0.1);
+    border: 1px solid rgba(234, 179, 8, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.warningTextContent {
+    composes: space-y-2 from global;
+    text-align: center;
+}
+
+@media (min-width: 768px) {
+    .warningTextContent {
+        text-align: left;
+    }
+}
+
+.warningTitle {
+    font-size: 18px;
+    font-weight: 700;
+    color: #ffffff;
+    margin: 0;
+}
+
+.warningDescription {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.7);
+    line-height: 1.625;
+    margin: 0;
+}
+
+/* Bouton Global Utilitaires */
+.btnPrimaryCustom {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #06b6d4;
+    color: #0a0a0a;
+    font-weight: 700;
+    padding: 12px 24px;
+    border-radius: 10px;
+    font-size: 15px;
+    border: none;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.btnPrimaryCustom:hover {
+    background-color: #22d3ee;
+}

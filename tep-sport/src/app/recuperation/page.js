@@ -1,130 +1,244 @@
 'use client';
-import Image from 'next/image';
+
+import { useEffect, useState } from 'react';
+import { useAuth } from '@/context/AuthContext';
+import { useData } from '@/context/DataContext';
+import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { Flame, Wind, Waves, Thermometer, ShieldCheck, CheckCircle2, ChevronRight } from 'lucide-react';
+import { Calendar, Clock, Trophy, Dumbbell, AlertTriangle, ArrowLeft, XCircle, Plus } from 'lucide-react';
+import styles from './ClientReservations.module.css'; // Import des styles isolés
 
-export default function Recuperation() {
-  const processes = [
-    {
-      title: 'Sauna Finlandais (Chaleur)',
-      desc: 'Une séance de 15 minutes à 85°C pour dilater les vaisseaux sanguins, stimuler la circulation, détendre les tensions musculaires et déclencher une forte sudation pour éliminer les toxines.',
-      icon: <Flame className="text-orange-400" size={24} />
-    },
-    {
-      title: 'Bain Froid (Vasoconstriction)',
-      desc: 'Une immersion de 2 à 3 minutes dans un bain à 8-10°C. Provoque un choc thermique qui resserre les vaisseaux, réduit l\'inflammation musculaire, calme le système nerveux et accélère la récupération.',
-      icon: <Waves className="text-cyan-400" size={24} />
-    },
-    {
-      title: 'Repos & Réhydratation',
-      desc: 'Un temps de retour au calme de 10 minutes allongé dans notre espace lounge avec tisanerie et eau filtrée pour permettre à la température corporelle et au rythme cardiaque de se stabiliser.',
-      icon: <Wind className="text-emerald-400" size={24} />
+export default function ClientReservations() {
+  const { user, loading } = useAuth();
+  const { reservations, seances, cancelReservation, cancelSeance } = useData();
+  const router = useRouter();
+  const [activeTab, setActiveTab] = useState('padel'); // padel, coaching
+
+  useEffect(() => {
+    if (!loading && !user) {
+      router.push('/client/login');
     }
-  ];
+  }, [user, loading, router]);
 
-  const benefits = [
-    'Réduction significative des courbatures et de la fatigue musculaire',
-    'Amélioration de la qualité du sommeil et réduction du stress',
-    'Stimulation du système immunitaire et cardiovasculaire',
-    'Accélération de la régénération cellulaire après des séances intenses',
-    'Amélioration de la souplesse et de l\'élasticité musculaire',
-    'Activation de la circulation lymphatique'
-  ];
+  if (loading || !user) {
+    return (
+      <div className={styles.loaderOverlay}>
+        <div className={styles.spinner} />
+      </div>
+    );
+  }
+
+  const clientReservations = reservations.filter(r => r.userId === user.id);
+  const clientSeances = seances.filter(s => s.clientId === user.id);
+
+  const getStatusBadge = (status) => {
+    switch (status) {
+      case 'confirmed':
+        return (
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+            Confirmé
+          </span>
+        );
+      case 'pending':
+        return (
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-amber-500/10 text-amber-400 border border-amber-500/20">
+            <span className="w-1.5 h-1.5 rounded-full bg-amber-400" />
+            En attente
+          </span>
+        );
+      case 'cancelled':
+        return (
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-neutral-800 text-neutral-400 border border-neutral-700">
+            Annulé
+          </span>
+        );
+      default:
+        return null;
+    }
+  };
 
   return (
-    <div className="flex flex-col min-h-screen pt-16">
-      {/* Hero Section */}
-      <section className="relative py-20 px-6">
-        <div className="container mx-auto max-w-6xl z-10 relative">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            {/* Left Info */}
-            <div className="space-y-6 text-center lg:text-left">
-              <span className="text-cyan-400 uppercase tracking-widest font-bold text-sm">Prestations</span>
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-white leading-tight">
-                Espace<br />
-                <span className="gradient-text-animated">Récupération</span>
-              </h1>
-              <p className="text-white/80 text-lg font-light leading-relaxed">
-                Optimisez votre régénération musculaire grâce à la méthode contrastée combinant sauna traditionnel et bains chauds/froids.
-              </p>
-              <div className="w-24 h-1 bg-gradient-to-r from-cyan-400 to-blue-500 rounded-full mx-auto lg:mx-0" />
-              <div className="flex flex-col sm:flex-row gap-4 pt-4 justify-center lg:justify-start">
-                <Link href="/reserver" className="btn-primary">
-                  Réserver un créneau
-                </Link>
-                <Link href="/abonnements" className="btn-outline">
-                  Découvrir les offres
-                </Link>
-              </div>
-            </div>
+    <div className={styles.pageWrapper}>
+      {/* Glow de fond subtil */}
+      <div className={styles.backgroundGlow} />
 
-            {/* Right Image */}
-            <div className="relative aspect-[4/3] rounded-2xl overflow-hidden border border-white/10 shadow-2xl">
-              <Image
-                src="https://www.tep-sport.com/images/accueil3.jpg"
-                alt="Zone de récupération sauna"
-                fill
-                className="object-cover hover:scale-105 transition-transform duration-700"
-                sizes="(max-width: 1024px) 100vw, 600px"
-              />
-            </div>
-          </div>
+      <div className={styles.container}>
+
+        {/* Top Navigation */}
+        <div className={styles.topNav}>
+          <Link href="/client/dashboard" className={styles.backLink}>
+            <ArrowLeft size={16} />
+            Retour au tableau de bord
+          </Link>
+          <Link href="/reserver" className={styles.newReservationBtn}>
+            <Plus size={16} strokeWidth={2.5} />
+            Nouvelle réservation
+          </Link>
         </div>
-      </section>
 
-      {/* Protocol Section */}
-      <section className="py-20 px-6 bg-black/30">
-        <div className="container mx-auto max-w-6xl">
-          <div className="text-center max-w-2xl mx-auto mb-16 space-y-4">
-            <span className="text-cyan-400 uppercase tracking-widest font-bold text-sm">Le Protocole contrasté</span>
-            <h2 className="text-3xl sm:text-5xl font-extrabold text-white">Comment ça marche ?</h2>
-            <p className="text-white/60 font-light">
-              Le secret réside dans l'alternance thermique chaud-froid pour créer une véritable "pompe vasculaire".
+        {/* Header Title */}
+        <div className={styles.headerTitleBlock}>
+          <h1 className={styles.mainTitle}>
+            Mes Réservations
+          </h1>
+          <p className={styles.subtitle}>
+            Suivez, planifiez et gérez l'ensemble de vos activités au centre.
+          </p>
+        </div>
+
+        {/* Custom Modern Tabs */}
+        <div className={styles.tabsContainer}>
+          <button
+            onClick={() => setActiveTab('padel')}
+            className={`${styles.tabButton} ${activeTab === 'padel' ? styles.tabActive : styles.tabInactive}`}
+          >
+            <Trophy size={16} />
+            Padel
+            <span className={`${styles.badge} ${activeTab === 'padel' ? styles.badgeActive : styles.badgeInactive}`}>
+              {clientReservations.length}
+            </span>
+          </button>
+
+          <button
+            onClick={() => setActiveTab('coaching')}
+            className={`${styles.tabButton} ${activeTab === 'coaching' ? styles.tabActive : styles.tabInactive}`}
+          >
+            <Dumbbell size={16} />
+            Coaching
+            <span className={`${styles.badge} ${activeTab === 'coaching' ? styles.badgeActive : styles.badgeInactive}`}>
+              {clientSeances.length}
+            </span>
+          </button>
+        </div>
+
+        {/* Lists Container */}
+        <div className={styles.listWrapper}>
+          {activeTab === 'padel' ? (
+            clientReservations.length > 0 ? (
+              <div className={styles.cardsGrid}>
+                {clientReservations.map((res) => (
+                  <div key={res.id} className={styles.card}>
+                    <div className={styles.cardMainInfo}>
+                      <div className={styles.iconContainer}>
+                        <Trophy size={22} />
+                      </div>
+                      <div className={styles.textContainer}>
+                        <h3 className={styles.itemTitle}>{res.court}</h3>
+                        <div className={styles.metadataFlex}>
+                          <span className={styles.metaItem}>
+                            <Calendar size={14} className={styles.metaIcon} /> {res.date}
+                          </span>
+                          <span className={styles.divider} />
+                          <span className={styles.metaItem}>
+                            <Clock size={14} className={styles.metaIcon} /> {res.startTime} - {res.endTime}
+                          </span>
+                          <span className={styles.divider} />
+                          <span className={styles.inlineBadge}>{res.players} joueurs</span>
+                        </div>
+                        {res.notes && (
+                          <p className={styles.notesBlock}>
+                            Note : {res.notes}
+                          </p>
+                        )}
+                      </div>
+                    </div>
+
+                    <div className={styles.cardActionBlock}>
+                      {getStatusBadge(res.status)}
+                      {res.status !== 'cancelled' && (
+                        <button
+                          onClick={() => {
+                            if (confirm('Voulez-vous vraiment annuler ce créneau ?')) {
+                              cancelReservation(res.id);
+                            }
+                          }}
+                          className={styles.cancelActionBtn}
+                          title="Annuler le créneau"
+                        >
+                          <XCircle size={20} />
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className={styles.emptyState}>
+                <Trophy size={32} className={styles.emptyIcon} />
+                Aucune réservation de padel enregistrée.
+              </div>
+            )
+          ) : (
+            clientSeances.length > 0 ? (
+              <div className={styles.cardsGrid}>
+                {clientSeances.map((seance) => (
+                  <div key={seance.id} className={styles.card}>
+                    <div className={styles.cardMainInfo}>
+                      <div className={styles.iconContainer}>
+                        <Dumbbell size={22} />
+                      </div>
+                      <div className={styles.textContainer}>
+                        <h3 className={styles.itemTitle}>{seance.type}</h3>
+                        <div className={styles.metadataFlex}>
+                          <span className={styles.metaItem}>
+                            <Calendar size={14} className={styles.metaIcon} /> {seance.date}
+                          </span>
+                          <span className={styles.divider} />
+                          <span className={styles.metaItem}>
+                            <Clock size={14} className={styles.metaIcon} /> {seance.startTime} - {seance.endTime}
+                          </span>
+                          <span className={styles.divider} />
+                          <span className={styles.coachingBadge}>Coach : {seance.coach}</span>
+                        </div>
+                        {seance.notes && (
+                          <p className={styles.notesBlock}>
+                            Note : {seance.notes}
+                          </p>
+                        )}
+                      </div>
+                    </div>
+
+                    <div className={styles.cardActionBlock}>
+                      {getStatusBadge(seance.status)}
+                      {seance.status !== 'cancelled' && (
+                        <button
+                          onClick={() => {
+                            if (confirm('Voulez-vous vraiment annuler cette séance ?')) {
+                              cancelSeance(seance.id);
+                            }
+                          }}
+                          className={styles.cancelActionBtn}
+                          title="Annuler la séance"
+                        >
+                          <XCircle size={20} />
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className={styles.emptyState}>
+                <Dumbbell size={32} className={styles.emptyIcon} />
+                Aucune séance de coaching enregistrée.
+              </div>
+            )
+          )}
+        </div>
+
+        {/* Cancellation warning callout */}
+        <div className={styles.policyCallout}>
+          <AlertTriangle size={20} className={styles.policyIcon} />
+          <div className={styles.policyContent}>
+            <h5 className={styles.policyTitle}>Politique d'annulation</h5>
+            <p className={styles.policyText}>
+              Conformément à nos conditions générales de vente, toute réservation de padel ou séance de coaching doit être annulée au minimum <strong>24 heures à l'avance</strong> pour être recréditée sur votre compte.
             </p>
           </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            {processes.map((proc, idx) => (
-              <div key={idx} className="glass-card p-8 space-y-4 hover:border-cyan-500/30 transition-all duration-300 relative">
-                <div className="absolute right-6 top-6 text-6xl font-black text-white/5">
-                  0{idx + 1}
-                </div>
-                <div className="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center">
-                  {proc.icon}
-                </div>
-                <h3 className="text-xl font-bold text-white">{proc.title}</h3>
-                <p className="text-sm text-white/60 leading-relaxed">{proc.desc}</p>
-              </div>
-            ))}
-          </div>
         </div>
-      </section>
 
-      {/* Benefits Section */}
-      <section className="py-20 px-6">
-        <div className="container mx-auto max-w-5xl">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-            <div className="lg:col-span-5 space-y-6">
-              <span className="text-cyan-400 uppercase tracking-widest font-bold text-sm">Les bénéfices</span>
-              <h2 className="text-3xl sm:text-4xl font-extrabold text-white leading-tight">
-                Pourquoi la récupération est capitale ?
-              </h2>
-              <p className="text-white/60 text-sm sm:text-base leading-relaxed">
-                S'entraîner dur est important, mais c'est durant la phase de récupération que votre corps s'adapte, se répare et progresse. Notre espace vous offre des outils de niveau professionnel pour maximiser ce processus.
-              </p>
-            </div>
-            
-            <div className="lg:col-span-7 space-y-3">
-              {benefits.map((benefit, i) => (
-                <div key={i} className="glass-card p-4 flex items-center gap-3 border border-white/5 hover:border-cyan-500/20 transition-all">
-                  <CheckCircle2 className="text-cyan-400 shrink-0" size={20} />
-                  <span className="text-sm text-white/80 font-medium">{benefit}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
+      </div>
     </div>
   );
 }
